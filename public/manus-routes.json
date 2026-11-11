@@ -9,6 +9,10 @@
       "title": "Content page"
     },
     {
+      "path": "/admin",
+      "title": "Admin dashboard"
+    },
+    {
       "path": "/services/",
       "title": "Services"
     },

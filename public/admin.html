@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>لوحة تحكم Pillar</title>
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body>
+    <div id="login" class="login-wrap">
+      <form id="login-form" class="login-card">
+        <div class="brand-mark">P</div>
+        <p class="eyebrow">PILLAR GROUP · CMS</p>
+        <h1>لوحة التحكم</h1>
+        <p class="muted">سجّل دخولك لإدارة الموقع.</p>
+        <label
+          >كلمة مرور الإدارة<input
+            id="password"
+            type="password"
+            required
+            autocomplete="current-password"
+            placeholder="كلمة المرور" /></label
+        ><button class="primary">دخول آمن</button>
+        <p id="login-error" class="error"></p>
+      </form>
+    </div>
+    <div id="app" class="app hidden">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">P</span>
+          <div><b>PILLAR</b><small>إدارة الموقع</small></div>
+        </div>
+        <nav id="nav">
+          <button class="nav-item active" data-tab="overview">نظرة عامة</button
+          ><button class="nav-item" data-tab="appearance">الألوان والخطوط</button
+          ><button class="nav-item" data-tab="content">المحتوى والصفحات</button
+          ><button class="nav-item" data-tab="media">الصور والفيديو</button
+          ><button class="nav-item" data-tab="links">الروابط</button>
+        </nav>
+        <div class="sidebar-foot">
+          <span class="live-dot"></span> لوحة إدارة Pillar
+          <div>
+            <a href="/" target="_blank">عرض الموقع ↗</a><button id="logout">تسجيل خروج</button>
+          </div>
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">PILLAR GROUP / ADMIN</p>
+            <h1 id="page-title">نظرة عامة</h1>
+          </div>
+          <a class="site-link" href="/" target="_blank">زيارة الموقع ↗</a>
+        </header>
+        <div id="notice" class="notice hidden"></div>
+        <section class="panel active" id="tab-overview">
+          <div class="welcome">
+            <div>
+              <p class="eyebrow">مساحة عملك</p>
+              <h2>كل تفاصيل موقعك،<br />في مكان واحد.</h2>
+              <p>عدّل الهوية والمحتوى والوسائط والروابط مع الحفاظ على تصميم الموقع الحالي.</p>
+            </div>
+            <div class="welcome-art">P<span>ILLAR</span><i></i></div>
+          </div>
+          <div class="stats">
+            <article>
+              <span>صفحات الموقع</span><b id="page-count">—</b><small>محتوى الموقع الأساسي</small>
+            </article>
+            <article>
+              <span>ملفات الوسائط</span><b id="media-count">—</b><small>صور وفيديوهات محفوظة</small>
+            </article>
+            <article>
+              <span>الروابط</span><b id="link-count">—</b><small>روابط الموقع والتواصل</small>
+            </article>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">إدارة سريعة</p>
+                <h3>ابدأ من هنا</h3>
+              </div>
+            </div>
+            <div class="quick-actions">
+              <button data-jump="appearance">تعديل ألوان وخطوط الموقع <span>←</span></button
+              ><button data-jump="content">تحرير عناوين ونصوص الصفحات <span>←</span></button
+              ><button data-jump="media">إضافة صورة أو فيديو <span>←</span></button
+              ><button data-jump="links">تحديث الروابط <span>←</span></button>
+            </div>
+          </div>
+        </section>
+        <section class="panel" id="tab-appearance">
+          <div class="intro">
+            <p class="eyebrow">الهوية البصرية</p>
+            <h2>الألوان والخطوط</h2>
+            <p>تُحفظ الإعدادات في قاعدة البيانات. التصميم الحالي للصفحات لا يتغير.</p>
+          </div>
+          <form id="appearance-form" class="card form-grid">
+            <label>اللون الأساسي<input name="primary" type="color" /></label
+            ><label>اللون الذهبي<input name="gold" type="color" /></label
+            ><label>لون الخلفية<input name="background" type="color" /></label
+            ><label>لون النص<input name="text" type="color" /></label
+            ><label class="span-2"
+              >نوع الخط<input name="font" placeholder="Cairo, sans-serif" /></label
+            ><label class="span-2"
+              >عنوان الصفحة الرئيسية<input name="heroTitle" placeholder="العنوان الرئيسي" /></label
+            ><label class="span-2"
+              >وصف الصفحة الرئيسية<textarea name="heroSubtitle" rows="3"></textarea></label
+            ><label class="span-2"
+              >رابط صورة الخلفية<input
+                name="heroImage"
+                placeholder="/images/pillar/hero-writing.jpg أو رابط"
+            /></label>
+            <div class="form-actions span-2"><button class="primary">حفظ الهوية</button></div>
+          </form>
+        </section>
+        <section class="panel" id="tab-content">
+          <div class="intro">
+            <p class="eyebrow">إدارة صفحاتك</p>
+            <h2>المحتوى والصفحات</h2>
+            <p>عدّل العناوين والوصف والروابط للصفحات الموجودة.</p>
+          </div>
+          <div class="card">
+            <div class="toolbar">
+              <label>اختيار الصفحة<select id="page-select"></select></label
+              ><button id="save-page" class="primary">حفظ الصفحة</button>
+            </div>
+            <div id="page-editor" class="form-grid"></div>
+          </div>
+        </section>
+        <section class="panel" id="tab-media">
+          <div class="intro">
+            <p class="eyebrow">مكتبة الوسائط</p>
+            <h2>الصور والفيديو</h2>
+            <p>ارفع ملفات الصور والفيديو، واحفظها في مجلد uploads وقاعدة بيانات الموقع.</p>
+          </div>
+          <form id="upload-form" class="upload-box">
+            <div class="upload-symbol">↑</div>
+            <h3>أضف وسائط جديدة</h3>
+            <p>اختر ملف صورة أو فيديو. الحد الأقصى 25 ميجابايت.</p>
+            <input
+              id="media-file"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+              required
+            /><button class="primary">رفع الملف</button>
+          </form>
+          <div id="media-list" class="media-grid"></div>
+        </section>
+        <section class="panel" id="tab-links">
+          <div class="intro">
+            <p class="eyebrow">روابط الموقع</p>
+            <h2>إدارة الروابط</h2>
+            <p>حدّث روابط التواصل أو أضف روابط التنقل الخاصة بموقعك.</p>
+          </div>
+          <div class="card">
+            <div id="links-list"></div>
+            <form id="add-link" class="link-add">
+              <input name="label" placeholder="اسم الرابط" required /><input
+                name="url"
+                placeholder="https:// أو /مسار"
+                required
+              /><button class="primary">إضافة رابط</button>
+            </form>
+            <div class="form-actions">
+              <button id="save-links" class="primary">حفظ الروابط</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/admin.js" defer></script>
+  </body>
+</html>

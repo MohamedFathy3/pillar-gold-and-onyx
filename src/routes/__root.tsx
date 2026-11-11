@@ -114,6 +114,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <script src="/cms-runtime.js" defer />
         <Scripts />
       </body>
     </html>
