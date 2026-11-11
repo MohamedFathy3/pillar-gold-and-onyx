@@ -81,14 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Pillar Advisory Group | Financial & Tax Consultancy" },
-      { name: "description", content: "Professional accounting and tax advisory services for businesses in Egypt." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Pillar Advisory Group | Financial & Tax Consultancy" },
-      { property: "og:description", content: "Professional accounting and tax advisory services for businesses in Egypt." },
+      { title: "Pillar Group | Financial & Tax Consultancy in Egypt" },
+      { name: "description", content: "Professional accounting, auditing and tax advisory services for businesses across Egypt." },
+      { name: "author", content: "Pillar Group" },
+      { property: "og:title", content: "Pillar Group | Financial & Tax Consultancy in Egypt" },
+      { property: "og:description", content: "Professional accounting, auditing and tax advisory services for businesses across Egypt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {

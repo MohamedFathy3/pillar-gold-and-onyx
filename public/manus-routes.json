@@ -1,0 +1,92 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "title": "Home"
+    },
+    {
+      "path": "/:slug",
+      "title": "Content page"
+    },
+    {
+      "path": "/services/",
+      "title": "Services"
+    },
+    {
+      "path": "/about/",
+      "title": "About"
+    },
+    {
+      "path": "/why-us/",
+      "title": "why us"
+    },
+    {
+      "path": "/contact/",
+      "title": "Contact"
+    },
+    {
+      "path": "/privacy-policy/",
+      "title": "Privacy Policy"
+    },
+    {
+      "path": "/audit-external-financial-review/",
+      "title": "Audit & External Financial Review"
+    },
+    {
+      "path": "/comprehensive-tax-advisory/",
+      "title": "Comprehensive Tax Advisory"
+    },
+    {
+      "path": "/internal-audit-services/",
+      "title": "Internal Audit Services"
+    },
+    {
+      "path": "/tax-returns-filing/",
+      "title": "Tax Returns Filing"
+    },
+    {
+      "path": "/tax-examination-inspection-support/",
+      "title": "Tax Examination & Inspection Support"
+    },
+    {
+      "path": "/financial-statements-preparation/",
+      "title": "Financial Statements Preparation"
+    },
+    {
+      "path": "/e-invoicing-services/",
+      "title": "E-Invoicing Services"
+    },
+    {
+      "path": "/company-formation-registration/",
+      "title": "Company Formation & Registration"
+    },
+    {
+      "path": "/payroll-internal-reporting-support/",
+      "title": "Payroll & Internal Reporting Support"
+    },
+    {
+      "path": "/feasibility-studies-project-evaluation/",
+      "title": "Feasibility Studies & Project Evaluation"
+    },
+    {
+      "path": "/assets-business-valuation/",
+      "title": "Assets & Business Valuation"
+    },
+    {
+      "path": "/government-authorities-support/",
+      "title": "Government Authorities Support & Compliance Handling"
+    },
+    {
+      "path": "/shows/",
+      "title": "Shows"
+    },
+    {
+      "path": "/lessons/",
+      "title": "Lessons"
+    },
+    {
+      "path": "/sample-page/",
+      "title": "Sample Page"
+    }
+  ]
+}
