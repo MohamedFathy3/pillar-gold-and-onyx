@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+The Pillar corporate site is a single TanStack homepage at `/` with its visual system in global styles, keeping this focused brand experience cohesive.
