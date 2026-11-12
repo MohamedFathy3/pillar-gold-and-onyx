@@ -8,34 +8,42 @@ import {
   Music2,
   ChevronDown,
   X,
-  Youtube,
 } from "lucide-react";
-import { allServicePages } from "@/data/site";
+import { allServicePages, primaryNavigation } from "@/data/site";
+import { useSiteLanguage } from "@/lib/i18n";
 
 const socials = [
-  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61582425098619", icon: Facebook },
-  { label: "Instagram", href: "https://www.instagram.com/pillar1789/", icon: Instagram },
-  { label: "YouTube", href: "https://www.youtube.com/piller/", icon: Youtube },
-  { label: "WhatsApp", href: "https://wa.me/201144591010", icon: MessageCircle },
-  { label: "TikTok", href: "https://www.tiktok.com/@pillar1789", icon: Music2 },
+  { label: "Facebook", href: "https://www.facebook.com/THDcertifiedaccountant", icon: Facebook },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/thdcertifiedaccountant/",
+    icon: Instagram,
+  },
+  { label: "TikTok", href: "https://www.tiktok.com/@thd_certifiedaccountant", icon: Music2 },
+  { label: "WhatsApp", href: "https://wa.me/201094866609", icon: MessageCircle },
 ];
 
-const primaryLinks = [
-  { label: "Home Page", href: "/" },
-  { label: "Why Pillar Group", href: "/why-us/" },
-  { label: "About Pillar Group", href: "/about/" },
-  { label: "Contact Us", href: "/contact/" },
-  { label: "Privacy Policy", href: "/privacy-policy/" },
-];
+export function THDWordmark({ compact = false }: { compact?: boolean }) {
+  return (
+    <span
+      className={compact ? "thd-wordmark thd-wordmark--compact" : "thd-wordmark"}
+      aria-label="THD Certified Accountant"
+    >
+      <strong>THD</strong>
+      <small>Certified Accountant</small>
+    </span>
+  );
+}
 
 export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid" }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const { language, setLanguage, copy } = useSiteLanguage();
   const closeMenu = () => setMenuOpen(false);
-
   return (
     <header className={`pillar-header ${variant === "solid" ? "pillar-header--solid" : ""}`}>
-      <a className="pillar-brand" href="/" aria-label="Pillar Group home">
-        <img src="/images/pillar/pillar-logo.png" alt="Pillar Group" />
+      <a className="pillar-brand" href="/" aria-label="THD Certified Accountant home">
+        <THDWordmark />
       </a>
       <button
         className="pillar-menu-toggle"
@@ -47,25 +55,49 @@ export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid
         {menuOpen ? <X /> : <Menu />}
       </button>
       <nav className={menuOpen ? "pillar-nav is-open" : "pillar-nav"} aria-label="Main navigation">
-        <a href="/" onClick={closeMenu}>Home Page</a>
+        <a href="/" onClick={closeMenu}>
+          {copy.nav.home}
+        </a>
         <div className="pillar-nav__service-group">
-          <a href="/services/" onClick={closeMenu}>Services</a>
-          <details className="service-dropdown">
-            <summary aria-label="Browse individual services"><ChevronDown size={14} /></summary>
+          <a href="/services/" onClick={closeMenu}>
+            {copy.nav.services}
+          </a>
+          <details
+            className="service-dropdown"
+            open={servicesOpen}
+            onToggle={(event) => setServicesOpen(event.currentTarget.open)}
+          >
+            <summary aria-label={copy.nav.services}>
+              <ChevronDown size={14} />
+            </summary>
             <div className="service-dropdown__panel">
-              <a href="/services/" onClick={closeMenu}>All Services</a>
+              <a href="/services/" onClick={closeMenu}>
+                {copy.allServices}
+              </a>
               {allServicePages.map((service) => (
-                <a href={`/${service.slug}/`} key={service.slug} onClick={closeMenu}>{service.title}</a>
+                <a href={`/${service.slug}/`} key={service.slug} onClick={closeMenu}>
+                  {language === "ar" ? service.arTitle : service.title}
+                </a>
               ))}
             </div>
           </details>
         </div>
-        {primaryLinks.slice(1).map((item) => (
-          <a href={item.href} key={item.href} onClick={closeMenu}>{item.label}</a>
+        {primaryNavigation.slice(2).map((item) => (
+          <a href={item.href} key={item.href} onClick={closeMenu}>
+            {language === "ar" ? item.arLabel : item.label}
+          </a>
         ))}
+        <button
+          className="language-switch"
+          type="button"
+          onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+          aria-label={`Switch to ${copy.language}`}
+        >
+          {copy.language}
+        </button>
       </nav>
       <div className="pillar-header-socials" aria-label="Social media">
-        {socials.map(({ label, href, icon: Icon }) => (
+        {socials.slice(0, 3).map(({ label, href, icon: Icon }) => (
           <a key={label} href={href} aria-label={label} target="_blank" rel="noreferrer">
             <Icon size={15} />
           </a>
@@ -76,41 +108,65 @@ export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid
 }
 
 export function SiteFooter() {
+  const { copy } = useSiteLanguage();
   return (
     <footer className="pillar-footer">
       <div className="pillar-footer__top">
         <div className="pillar-footer__brand">
-          <a href="/" aria-label="Pillar Group home"><img src="/images/pillar/pillar-logo.png" alt="Pillar Group" /></a>
-          <p>Professional financial and tax advisory services for businesses in Egypt.</p>
+          <a href="/" aria-label="THD Certified Accountant home">
+            <THDWordmark />
+          </a>
+          <p>{copy.footerText}</p>
         </div>
         <div className="pillar-footer__contact">
-          <p className="section-kicker">Get in touch</p>
-          <a href="https://maps.app.goo.gl/Xdnarm5wmcf3JqdT9" target="_blank" rel="noreferrer">
-            31 El Obour Buildings, Salah Salem Road,<br />Heliopolis, Cairo, Egypt · Floor 16 – Unit 4
+          <p className="section-kicker">{copy.getInTouch}</p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=31+El+Obour+Buildings+Salah+Salem+Cairo"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {copy.address}
           </a>
-          <a href="tel:+201153338081">+20 115 333 8081</a>
-          <a href="mailto:info@pillargroup-eg.com">info@pillargroup-eg.com</a>
+          <a href="tel:+201094866609">{copy.phone}</a>
+          <a href="https://wa.me/201094866609" target="_blank" rel="noreferrer">
+            WhatsApp
+          </a>
         </div>
         <div className="pillar-footer__nav">
-          <p className="section-kicker">Explore</p>
-          <a href="/services/">Our services</a>
-          <a href="/about/">About Pillar Group</a>
-          <a href="/why-us/">Why Pillar Group</a>
-          <a href="/contact/">Contact us</a>
-          <a href="/privacy-policy/">Privacy Policy</a>
+          <p className="section-kicker">{copy.explore}</p>
+          {primaryNavigation.map((item) => (
+            <a href={item.href} key={item.href}>
+              {
+                copy.nav[
+                  item.href === "/"
+                    ? "home"
+                    : item.href === "/services/"
+                      ? "services"
+                      : item.href === "/why-us/"
+                        ? "why"
+                        : item.href === "/about/"
+                          ? "about"
+                          : "contact"
+                ]
+              }
+            </a>
+          ))}
         </div>
         <div className="pillar-footer__social">
-          <p className="section-kicker">Follow us</p>
+          <p className="section-kicker">{copy.follow}</p>
           {socials.map(({ label, href, icon: Icon }) => (
             <a key={label} href={href} target="_blank" rel="noreferrer">
-              <Icon size={15} /><span>{label}</span>
+              <Icon size={15} />
+              <span>{label}</span>
             </a>
           ))}
         </div>
       </div>
       <div className="pillar-footer__bottom">
-        <span>© 2026 Pillar Group. All rights reserved.</span>
-        <a href="/privacy-policy/">Privacy Policy <ArrowUpRight /></a>
+        <span>© 2026 THD Certified Accountant. All rights reserved.</span>
+        <a href="/privacy-policy/">
+          Privacy Policy <ArrowUpRight />
+        </a>
       </div>
     </footer>
   );
@@ -118,15 +174,15 @@ export function SiteFooter() {
 
 export function ContactForm({
   className = "contact-form",
-  kicker = "Send us a message",
-  heading = "We are here to support your business growth.",
+  kicker,
+  heading,
 }: {
   className?: string;
   kicker?: string;
   heading?: string;
 }) {
+  const { copy } = useSiteLanguage();
   const [sent, setSent] = useState(false);
-
   function submitMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -135,20 +191,39 @@ export function ContactForm({
       `Email: ${String(formData.get("email") ?? "")}`,
       `Message: ${String(formData.get("message") ?? "")}`,
     ].join("\n");
-    const whatsappUrl = `https://wa.me/201144591010?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    window.open(
+      `https://wa.me/201094866609?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
     setSent(true);
   }
-
   return (
     <form className={className} onSubmit={submitMessage}>
-      {kicker && <p className="section-kicker">{kicker}</p>}
-      <h3>{heading}</h3>
-      <label>Name<input required name="name" autoComplete="name" placeholder="Your name" /></label>
-      <label>Email<input required type="email" name="email" autoComplete="email" placeholder="name@company.com" /></label>
-      <label>Message<textarea required name="message" rows={4} placeholder="How can we help?" /></label>
-      <button className="pillar-button-gold" type="submit">{sent ? "Send another message" : "Send"}<ArrowUpRight size={16} /></button>
-      {sent && <p className="form-confirmation" role="status">Your message is ready in WhatsApp. Please review and send it there.</p>}
+      <p className="section-kicker">{kicker ?? copy.formKicker}</p>
+      <h3>{heading ?? copy.formTitle}</h3>
+      <label>
+        {copy.name}
+        <input required name="name" autoComplete="name" placeholder={copy.namePlaceholder} />
+      </label>
+      <label>
+        {copy.email}
+        <input
+          required
+          type="email"
+          name="email"
+          autoComplete="email"
+          placeholder={copy.emailPlaceholder}
+        />
+      </label>
+      <label>
+        {copy.message}
+        <textarea required name="message" rows={4} placeholder={copy.messagePlaceholder} />
+      </label>
+      <button className="pillar-button-gold" type="submit">
+        {sent ? copy.sent : copy.send}
+        <ArrowUpRight size={16} />
+      </button>
     </form>
   );
 }

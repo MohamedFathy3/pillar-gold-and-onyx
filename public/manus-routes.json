@@ -1,69 +1,24 @@
 {
   "routes": [
-    {
-      "path": "/",
-      "title": "Home"
-    },
-    {
-      "path": "/:slug",
-      "title": "Content page"
-    },
-    {
-      "path": "/admin",
-      "title": "Admin dashboard"
-    },
-    {
-      "path": "/services/",
-      "title": "Services"
-    },
-    {
-      "path": "/about/",
-      "title": "About"
-    },
-    {
-      "path": "/why-us/",
-      "title": "why us"
-    },
-    {
-      "path": "/contact/",
-      "title": "Contact"
-    },
-    {
-      "path": "/privacy-policy/",
-      "title": "Privacy Policy"
-    },
-    {
-      "path": "/audit-external-financial-review/",
-      "title": "Audit & External Financial Review"
-    },
-    {
-      "path": "/comprehensive-tax-advisory/",
-      "title": "Comprehensive Tax Advisory"
-    },
-    {
-      "path": "/internal-audit-services/",
-      "title": "Internal Audit Services"
-    },
-    {
-      "path": "/tax-returns-filing/",
-      "title": "Tax Returns Filing"
-    },
+    { "path": "/", "title": "THD Certified Accountant" },
+    { "path": "/:slug", "title": "THD content page" },
+    { "path": "/admin", "title": "Admin dashboard" },
+    { "path": "/services/", "title": "Our Services" },
+    { "path": "/about/", "title": "About THD" },
+    { "path": "/why-us/", "title": "Why Choose THD" },
+    { "path": "/contact/", "title": "Get in Touch" },
+    { "path": "/privacy-policy/", "title": "Privacy Policy" },
+    { "path": "/audit-external-financial-review/", "title": "Audit & External Financial Review" },
+    { "path": "/comprehensive-tax-advisory/", "title": "Comprehensive Tax Advisory" },
+    { "path": "/internal-audit-services/", "title": "Internal Audit Services" },
+    { "path": "/tax-returns-filing/", "title": "Tax Returns Filing" },
     {
       "path": "/tax-examination-inspection-support/",
       "title": "Tax Examination & Inspection Support"
     },
-    {
-      "path": "/financial-statements-preparation/",
-      "title": "Financial Statements Preparation"
-    },
-    {
-      "path": "/e-invoicing-services/",
-      "title": "E-Invoicing Services"
-    },
-    {
-      "path": "/company-formation-registration/",
-      "title": "Company Formation & Registration"
-    },
+    { "path": "/financial-statements-preparation/", "title": "Financial Statements Preparation" },
+    { "path": "/e-invoicing-services/", "title": "E-Invoicing Services" },
+    { "path": "/company-formation-registration/", "title": "Company Formation & Registration" },
     {
       "path": "/payroll-internal-reporting-support/",
       "title": "Payroll & Internal Reporting Support"
@@ -72,25 +27,13 @@
       "path": "/feasibility-studies-project-evaluation/",
       "title": "Feasibility Studies & Project Evaluation"
     },
-    {
-      "path": "/assets-business-valuation/",
-      "title": "Assets & Business Valuation"
-    },
+    { "path": "/assets-business-valuation/", "title": "Assets & Business Valuation" },
     {
       "path": "/government-authorities-support/",
-      "title": "Government Authorities Support & Compliance Handling"
+      "title": "Government Authorities Support & Compliance"
     },
-    {
-      "path": "/shows/",
-      "title": "Shows"
-    },
-    {
-      "path": "/lessons/",
-      "title": "Lessons"
-    },
-    {
-      "path": "/sample-page/",
-      "title": "Sample Page"
-    }
+    { "path": "/shows/", "title": "THD Insights" },
+    { "path": "/lessons/", "title": "Financial Notes" },
+    { "path": "/sample-page/", "title": "Business Support" }
   ]
 }

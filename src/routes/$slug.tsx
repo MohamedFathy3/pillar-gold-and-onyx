@@ -6,14 +6,15 @@ import {
   allServicePages,
   allServiceSlugs,
   featuredServiceImages,
+  getLocalizedPage,
   getPageBySlug,
   getLeadImage,
   getLeadImageAlt,
-  isBrandmarkImage,
   otherServiceSlugs,
   type ContentBlock,
   type ReferencePage,
 } from "@/data/site";
+import { useSiteLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/$slug")({
   loader: ({ params }) => {
@@ -21,255 +22,365 @@ export const Route = createFileRoute("/$slug")({
     if (!page) throw notFound();
     return page;
   },
-  head: ({ loaderData, params }) => {
-    const page = loaderData ?? getPageBySlug(params.slug);
-    if (!page) {
-      return { meta: [{ title: "Page not found | Pillar Group" }, { name: "robots", content: "noindex, follow" }] };
-    }
-    const title = pageTitle(page);
-    const description = pageDescription(page);
+  head: ({ loaderData }) => {
+    const page = loaderData ?? getPageBySlug("home");
+    if (!page)
+      return {
+        meta: [
+          { title: "Page not found | THD Certified Accountant" },
+          { name: "robots", content: "noindex, follow" },
+        ],
+      };
     return {
       meta: [
-        { title },
-        { name: "description", content: description },
-        { name: "keywords", content: `${displayTitle(page)}, accounting, tax advisory, Egypt` },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:site_name", content: "Pillar Group" },
+        { title: `${page.title} | THD Certified Accountant` },
+        { name: "description", content: page.description },
+        { property: "og:title", content: `${page.title} | THD Certified Accountant` },
+        { property: "og:description", content: page.description },
+        { property: "og:site_name", content: "THD Certified Accountant" },
         { property: "og:type", content: "website" },
-        { property: "og:image", content: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663165155686/KiOIgSTZfzqpcSRJ.jpg" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663165155686/KiOIgSTZfzqpcSRJ.jpg" },
       ],
     };
   },
   component: RoutedPage,
 });
 
-function displayTitle(page: ReferencePage) {
-  if (page.slug === "why-us") return "Why Pillar Group";
-  if (page.slug === "contact") return "Get In Touch";
-  return page.title;
-}
-
-function pageTitle(page: ReferencePage) {
-  if (page.slug === "government-authorities-support") return "Government Authorities Support | Pillar Group";
-  return `${displayTitle(page)} | Pillar Group`;
-}
-
-function pageDescription(page: ReferencePage) {
-  const intro = page.blocks.find((block) => block.type === "paragraph");
-  const text = page.description || (intro?.type === "paragraph" ? intro.text : `${displayTitle(page)} — professional financial and tax services from Pillar Group in Egypt.`);
-  const complete = text.length < 50 ? `Professional services from Pillar Group in Egypt. ${text}` : text;
-  return complete.length > 155 ? `${complete.slice(0, 152).trimEnd()}…` : complete;
-}
-
 function RoutedPage() {
   const page = Route.useLoaderData();
-  if (page.slug === "services") return <ServicesPage page={page} />;
-  if (page.slug === "contact") return <ContactPage page={page} />;
-  if (allServiceSlugs.includes(page.slug)) return <ServicePage page={page} />;
-  return <GenericPage page={page} />;
+  const { language } = useSiteLanguage();
+  const localized = getLocalizedPage(page, language);
+  if (page.slug === "services") return <ServicesPage page={localized} language={language} />;
+  if (page.slug === "contact") return <ContactPage page={localized} />;
+  if (allServiceSlugs.includes(page.slug))
+    return <ServicePage page={localized} language={language} />;
+  return <GenericPage page={localized} />;
 }
 
 function PageFrame({ children }: { children: ReactNode }) {
+  const { copy } = useSiteLanguage();
   return (
     <main className="interior-site">
       <SiteHeader variant="solid" />
       {children}
       <SiteFooter />
-      <a className="pillar-contact-float" href="/contact/">Contact us <ArrowUpRight size={15} /></a>
-      <a className="pillar-whatsapp interior-whatsapp" href="https://wa.me/201144591010" aria-label="Chat on WhatsApp" target="_blank" rel="noreferrer">W</a>
+      <a className="pillar-contact-float" href="/contact/">
+        {copy.contact} <ArrowUpRight size={15} />
+      </a>
+      <a
+        className="pillar-whatsapp interior-whatsapp"
+        href="https://wa.me/201094866609"
+        aria-label={copy.whatsapp}
+        target="_blank"
+        rel="noreferrer"
+      >
+        W
+      </a>
     </main>
   );
 }
 
-function PageHero({ page, eyebrow = "Pillar Group · Financial & Tax Consultancy" }: { page: ReferencePage; eyebrow?: string }) {
+function PageHero({ page, eyebrow }: { page: ReferencePage; eyebrow: string }) {
   const image = getLeadImage(page)?.src;
   const summary = page.blocks.find((block) => block.type === "paragraph");
-  const subtitle = summary?.type === "paragraph" ? summary.text : "Professional financial guidance for your business.";
-  const title = displayTitle(page);
+  const { copy } = useSiteLanguage();
   return (
-    <section className={`inner-page-hero ${image ? "inner-page-hero--photo" : ""}`} style={image ? { backgroundImage: `linear-gradient(90deg, oklch(0.18 0.02 49 / 95%), oklch(0.18 0.02 49 / 78%) 50%, oklch(0.18 0.02 49 / 38%)), url("${image}")` } : undefined}>
+    <section
+      className={`inner-page-hero ${image ? "inner-page-hero--photo" : ""}`}
+      style={
+        image
+          ? {
+              backgroundImage: `linear-gradient(90deg, oklch(0.18 0.02 49 / 95%), oklch(0.18 0.02 49 / 78%) 50%, oklch(0.18 0.02 49 / 38%)), url("${image}")`,
+            }
+          : undefined
+      }
+    >
       <div className="inner-page-hero__content section-wrap">
         <p className="section-kicker">{eyebrow}</p>
-        <h1>{title}</h1>
-        <p className="inner-page-hero__summary">{subtitle}</p>
-        <div className="breadcrumb"><a href="/">Home Page</a><ChevronRight size={14} /><span>{title}</span></div>
+        <h1>{page.title}</h1>
+        <p className="inner-page-hero__summary">
+          {summary?.type === "paragraph" ? summary.text : page.description}
+        </p>
+        <div className="breadcrumb">
+          <a href="/">{copy.homePage}</a>
+          <ChevronRight size={14} />
+          <span>{page.title}</span>
+        </div>
       </div>
     </section>
   );
 }
 
-function ServicesPage({ page }: { page: ReferencePage }) {
-  const featured = allServiceSlugs.slice(0, 6);
-  const other = otherServiceSlugs;
+function ServicesPage({ page, language }: { page: ReferencePage; language: "en" | "ar" }) {
+  const { copy } = useSiteLanguage();
   return (
     <PageFrame>
-      <PageHero page={page} eyebrow="Our expertise" />
+      <PageHero page={page} eyebrow={language === "ar" ? "خبرتنا" : "Our expertise"} />
       <section className="interior-section section-wrap">
         <div className="section-heading">
-          <p className="section-kicker">Expertise that moves you forward</p>
-          <h2>Our Services</h2>
-          <p>Empowering your business with precise, reliable, and strategic financial solutions.</p>
+          <p className="section-kicker">{copy.servicesKicker}</p>
+          <h2>{page.title}</h2>
+          <p>{copy.servicesText}</p>
         </div>
         <div className="service-grid interior-service-grid">
-          {featured.map((slug, index) => <ServiceCard key={slug} slug={slug} index={index} />)}
+          {allServiceSlugs.slice(0, 6).map((slug, index) => (
+            <ServiceCard key={slug} slug={slug} index={index} language={language} />
+          ))}
         </div>
         <div className="other-services interior-other-services">
-          <div><p className="section-kicker">Beyond the numbers</p><h3>Other Services</h3></div>
+          <div>
+            <p className="section-kicker">{copy.latestKicker}</p>
+            <h3>{copy.allServices}</h3>
+          </div>
           <div className="other-service-list">
-            {other.map((slug, index) => {
-              const service = getPageBySlug(slug);
-              if (!service) return null;
-              return <a href={`/${slug}/`} key={slug}><span>{String(index + 1).padStart(2, "0")}</span>{service.title}<ArrowRight /></a>;
+            {otherServiceSlugs.map((slug, index) => {
+              const item = getPageBySlug(slug);
+              if (!item) return null;
+              return (
+                <a href={`/${slug}/`} key={slug}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {language === "ar" ? item.arTitle : item.title}
+                  <ArrowRight />
+                </a>
+              );
             })}
           </div>
         </div>
       </section>
       <section className="service-page-cta">
-        <p className="section-kicker">Professional advisory services you can trust</p>
-        <h2>Let’s discuss what your business needs.</h2>
-        <a className="pillar-button-gold" href="/contact/">Request your consultation <ArrowUpRight size={16} /></a>
+        <p className="section-kicker">{copy.advisoryKicker}</p>
+        <h2>{copy.consultationTitle}</h2>
+        <a className="pillar-button-gold" href="/contact/">
+          {copy.request} <ArrowUpRight size={16} />
+        </a>
       </section>
     </PageFrame>
   );
 }
 
-function ServiceCard({ slug, index }: { slug: string; index: number }) {
+function ServiceCard({
+  slug,
+  index,
+  language,
+}: {
+  slug: string;
+  index: number;
+  language: "en" | "ar";
+}) {
   const page = getPageBySlug(slug);
   if (!page) return null;
-  const image = featuredServiceImages[slug] ?? page.images[0]?.src ?? "/images/pillar/hero-writing.jpg";
+  const title = language === "ar" ? page.arTitle : page.title;
   return (
     <article className="service-item">
-      <a className="service-photo" href={`/${slug}/`} aria-label={`Learn about ${page.title}`}>
-        <img src={image} alt={page.title} loading="lazy" />
+      <a className="service-photo" href={`/${slug}/`} aria-label={title}>
+        <img src={featuredServiceImages[slug] ?? page.images[0]?.src} alt={title} loading="lazy" />
         <span className="service-index">{String(index + 1).padStart(2, "0")}</span>
       </a>
-      <div className="service-caption"><h3>{page.title}</h3><a href={`/${slug}/`} aria-label={`Read more about ${page.title}`}><ArrowUpRight /></a></div>
+      <div className="service-caption">
+        <h3>{title}</h3>
+        <a href={`/${slug}/`} aria-label={title}>
+          <ArrowUpRight />
+        </a>
+      </div>
     </article>
   );
 }
 
-function ServicePage({ page }: { page: ReferencePage }) {
+function ServicePage({ page, language }: { page: ReferencePage; language: "en" | "ar" }) {
+  const { copy } = useSiteLanguage();
   const leadImage = getLeadImage(page);
-  const image = leadImage?.src ?? "/images/pillar/hero-writing.jpg";
   const firstParagraph = page.blocks.find((block) => block.type === "paragraph");
-  let usedSummary = false;
-  const bodyBlocks = page.blocks.filter((block) => {
-    if (block.type === "image") {
-      return !isBrandmarkImage(block) && block.src !== leadImage?.src;
-    }
-    if (block.type === "paragraph" && block === firstParagraph && !usedSummary) {
-      usedSummary = true;
-      return false;
-    }
-    return true;
-  });
+  const bodyBlocks = page.blocks.filter(
+    (block, index) => !(block.type === "paragraph" && index === 0) && block.type !== "image",
+  );
   return (
     <PageFrame>
       <section className="service-detail-hero">
         <div className="service-detail-hero__copy">
-          <p className="section-kicker">Pillar Group · Our Services</p>
+          <p className="section-kicker">THD · {language === "ar" ? "خدماتنا" : "Our services"}</p>
           <h1>{page.title}</h1>
           {firstParagraph?.type === "paragraph" && <p>{firstParagraph.text}</p>}
-          <a className="pillar-button-gold" href="/contact/">Request a consultation <ArrowUpRight size={16} /></a>
-          <div className="breadcrumb"><a href="/">Home Page</a><ChevronRight size={14} /><a href="/services/">Services</a><ChevronRight size={14} /><span>{page.title}</span></div>
+          <a className="pillar-button-gold" href="/contact/">
+            {copy.request} <ArrowUpRight size={16} />
+          </a>
+          <div className="breadcrumb">
+            <a href="/">{copy.homePage}</a>
+            <ChevronRight size={14} />
+            <a href="/services/">{copy.servicesKicker}</a>
+            <ChevronRight size={14} />
+            <span>{page.title}</span>
+          </div>
         </div>
-        <div className="service-detail-hero__image"><img src={image} alt={leadImage?.alt && leadImage.alt !== "12" ? leadImage.alt : page.title} /></div>
+        <div className="service-detail-hero__image">
+          <img
+            src={leadImage?.src ?? "/images/pillar/hero-writing.jpg"}
+            alt={getLeadImageAlt(page)}
+          />
+        </div>
       </section>
       <section className="service-detail-body section-wrap">
         <article className="reference-article service-article">
-          {bodyBlocks.map((block, index) => <ContentBlockView block={block} key={`${block.type}-${index}`} />)}
+          {bodyBlocks.map((block, index) => (
+            <ContentBlockView block={block} key={`${block.type}-${index}`} />
+          ))}
         </article>
         <aside className="service-sidebar">
           <div className="service-sidebar__card">
-            <p className="section-kicker">Ready to get expert support?</p>
-            <h2>Talk to a professional advisor.</h2>
-            <p>We are here to support your business growth.</p>
-            <a href="/contact/" className="text-link">Contact us <ArrowRight size={16} /></a>
+            <p className="section-kicker">{copy.consultationKicker}</p>
+            <h2>{copy.consultationTitle}</h2>
+            <p>{copy.consultationText}</p>
+            <a href="/contact/" className="text-link">
+              {copy.contact} <ArrowRight size={16} />
+            </a>
           </div>
-          <div className="service-sidebar__links"><h3>Other Services</h3>{allServicePages.filter((item) => item.slug !== page.slug).slice(0, 7).map((item) => <a href={`/${item.slug}/`} key={item.slug}>{item.title}<ArrowUpRight size={14} /></a>)}</div>
+          <div className="service-sidebar__links">
+            <h3>{copy.allServices}</h3>
+            {allServicePages
+              .filter((item) => item.slug !== page.slug)
+              .slice(0, 7)
+              .map((item) => (
+                <a href={`/${item.slug}/`} key={item.slug}>
+                  {language === "ar" ? item.arTitle : item.title}
+                  <ArrowUpRight size={14} />
+                </a>
+              ))}
+          </div>
         </aside>
       </section>
       <section className="service-page-cta">
-        <p className="section-kicker">Pillar Group</p>
-        <h2>Get the right financial support for your business.</h2>
-        <a className="pillar-button-gold" href="/contact/">Contact Us <ArrowUpRight size={16} /></a>
+        <p className="section-kicker">THD Certified Accountant</p>
+        <h2>{copy.whyTitle}</h2>
+        <a className="pillar-button-gold" href="/contact/">
+          {copy.contact} <ArrowUpRight size={16} />
+        </a>
       </section>
     </PageFrame>
   );
 }
 
 function ContactPage({ page }: { page: ReferencePage }) {
+  const { copy } = useSiteLanguage();
+  const socialLinks = ["Facebook", "Instagram", "TikTok", "WhatsApp"];
+  const urls = [
+    "https://www.facebook.com/THDcertifiedaccountant",
+    "https://www.instagram.com/thdcertifiedaccountant/",
+    "https://www.tiktok.com/@thd_certifiedaccountant",
+    "https://wa.me/201094866609",
+  ];
   return (
     <PageFrame>
-      <PageHero page={page} eyebrow="We are here to support your business growth." />
+      <PageHero page={page} eyebrow={copy.consultationText} />
       <section className="contact-page section-wrap">
         <div className="contact-page__details">
-          <p className="section-kicker">Get In Touch</p>
-          <h2>Let’s talk about your business.</h2>
-          <a className="contact-detail" href="https://maps.app.goo.gl/Xdnarm5wmcf3JqdT9" target="_blank" rel="noreferrer">
+          <p className="section-kicker">{copy.getInTouch}</p>
+          <h2>{copy.consultationTitle}</h2>
+          <a
+            className="contact-detail"
+            href="https://www.google.com/maps/search/?api=1&query=31+El+Obour+Buildings+Salah+Salem+Cairo"
+            target="_blank"
+            rel="noreferrer"
+          >
             <span className="contact-detail__icon">01</span>
-            <span><b>Address</b>31 El Obour Buildings, Salah Salem Road, Heliopolis, Cairo, Egypt<br />Floor 16 – Unit 4</span>
+            <span>
+              <b>{copy.address}</b>
+            </span>
           </a>
-          <a className="contact-detail" href="tel:+201153338081"><span className="contact-detail__icon">02</span><span><b>Phone</b>+20 115 333 8081</span></a>
-          <a className="contact-detail" href="mailto:info@pillargroup-eg.com"><span className="contact-detail__icon">03</span><span><b>Email</b>info@pillargroup-eg.com</span></a>
-          <div className="contact-social-row"><span>Follow Us</span>{["Facebook", "Instagram", "YouTube", "WhatsApp", "TikTok"].map((name) => {
-            const social = name === "Facebook" ? "https://www.facebook.com/profile.php?id=61582425098619" : name === "Instagram" ? "https://www.instagram.com/pillar1789/" : name === "YouTube" ? "https://www.youtube.com/piller/" : name === "WhatsApp" ? "https://wa.me/201144591010" : "https://www.tiktok.com/@pillar1789";
-            return <a key={name} href={social} target="_blank" rel="noreferrer">{name}</a>;
-          })}</div>
+          <a className="contact-detail" href="tel:+201094866609">
+            <span className="contact-detail__icon">02</span>
+            <span>
+              <b>{copy.phone}</b>
+            </span>
+          </a>
+          <div className="contact-social-row">
+            <span>{copy.follow}</span>
+            {socialLinks.map((name, index) => (
+              <a key={name} href={urls[index]} target="_blank" rel="noreferrer">
+                {name}
+              </a>
+            ))}
+          </div>
         </div>
-        <ContactForm className="contact-page-form" kicker="Send us a message" heading="We are here to support your business growth." />
+        <ContactForm className="contact-page-form" />
       </section>
-      <section className="contact-map-link"><span>Find Us</span><a href="https://maps.app.goo.gl/Xdnarm5wmcf3JqdT9" target="_blank" rel="noreferrer">View our Cairo office location <ArrowUpRight size={16} /></a></section>
+      <section className="contact-map-link">
+        <span>{copy.address}</span>
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=31+El+Obour+Buildings+Salah+Salem+Cairo"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {copy.getInTouch} <ArrowUpRight size={16} />
+        </a>
+      </section>
     </PageFrame>
   );
 }
 
 function GenericPage({ page }: { page: ReferencePage }) {
-  const leadImage = getLeadImage(page);
-  const image = leadImage?.src;
-  const blocks = page.blocks.filter((block) => {
-    if (block.type === "image") {
-      return !isBrandmarkImage(block) && block.src !== image;
-    }
-    return true;
-  });
+  const { copy } = useSiteLanguage();
+  const image = getLeadImage(page)?.src;
   return (
     <PageFrame>
-      <PageHero page={page} eyebrow={page.slug === "privacy-policy" ? "Pillar Group" : "For financial and tax services and consultancy"} />
-      <section className={`generic-page-body section-wrap ${page.slug === "privacy-policy" ? "generic-page-body--legal" : ""}`}>
+      <PageHero
+        page={page}
+        eyebrow={page.slug === "privacy-policy" ? "THD Certified Accountant" : copy.heroKicker}
+      />
+      <section
+        className={`generic-page-body section-wrap ${page.slug === "privacy-policy" ? "generic-page-body--legal" : ""}`}
+      >
         <article className="reference-article">
-          {blocks.map((block, index) => <ContentBlockView block={block} key={`${block.type}-${index}`} />)}
+          {page.blocks.map((block, index) => (
+            <ContentBlockView block={block} key={`${block.type}-${index}`} />
+          ))}
         </article>
         {page.slug !== "privacy-policy" && (
           <aside className="generic-page-sidebar">
             {image && <img src={image} alt={getLeadImageAlt(page)} loading="lazy" />}
-            <p className="section-kicker">Professional advisory services</p>
-            <h2>We are here to support your business growth.</h2>
-            <a className="text-link" href="/contact/">Get in touch <ArrowRight size={16} /></a>
+            <p className="section-kicker">{copy.advisoryKicker}</p>
+            <h2>{copy.consultationTitle}</h2>
+            <a className="text-link" href="/contact/">
+              {copy.contact} <ArrowRight size={16} />
+            </a>
           </aside>
         )}
       </section>
-      {page.slug !== "privacy-policy" && <section className="service-page-cta"><p className="section-kicker">Pillar Group</p><h2>Ready to get expert support?</h2><a className="pillar-button-gold" href="/contact/">Request your consultation <ArrowUpRight size={16} /></a></section>}
+      {page.slug !== "privacy-policy" && (
+        <section className="service-page-cta">
+          <p className="section-kicker">THD Certified Accountant</p>
+          <h2>{copy.whyTitle}</h2>
+          <a className="pillar-button-gold" href="/contact/">
+            {copy.request} <ArrowUpRight size={16} />
+          </a>
+        </section>
+      )}
     </PageFrame>
   );
 }
 
 function ContentBlockView({ block }: { block: ContentBlock }) {
-  if (block.type === "heading") {
-    if (block.level <= 2) return <h2 className="reference-heading">{block.text}</h2>;
-    return <h3 className="reference-subheading">{block.text}</h3>;
-  }
+  if (block.type === "heading")
+    return block.level <= 2 ? (
+      <h2 className="reference-heading">{block.text}</h2>
+    ) : (
+      <h3 className="reference-subheading">{block.text}</h3>
+    );
   if (block.type === "paragraph") return <p>{block.text}</p>;
   if (block.type === "list") {
     const Tag = block.ordered ? "ol" : "ul";
-    return <Tag className="reference-list">{block.items.map((item, index) => <li key={`${index}-${item}`}><Check size={16} />{item}</li>)}</Tag>;
+    return (
+      <Tag className="reference-list">
+        {block.items.map((item, index) => (
+          <li key={`${index}-${item}`}>
+            <Check size={16} />
+            {item}
+          </li>
+        ))}
+      </Tag>
+    );
   }
   if (block.type === "quote") return <blockquote>{block.text}</blockquote>;
-  const alt = block.alt.trim() && block.alt.trim() !== "12" ? block.alt : "Pillar Group financial and advisory services";
-  return <figure className="reference-image"><img src={block.src} alt={alt} loading="lazy" /></figure>;
+  return (
+    <figure className="reference-image">
+      <img src={block.src} alt={block.alt || "THD Certified Accountant"} loading="lazy" />
+    </figure>
+  );
 }

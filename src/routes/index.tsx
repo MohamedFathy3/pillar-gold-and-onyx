@@ -7,100 +7,177 @@ import {
   Check,
   ClipboardCheck,
   FileSpreadsheet,
+  Instagram,
+  MessageCircle,
+  Music2,
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ContactForm, SiteFooter, SiteHeader } from "@/components/site-layout";
-import { AdvisoryTrustPanel, CompanySpotlight, LatestServices, ReferenceAbout } from "@/components/home-reference-sections";
-import { featuredServiceImages, featuredServiceSlugs, getPageBySlug, otherServiceSlugs } from "@/data/site";
+import { ContactForm, SiteFooter, SiteHeader, THDWordmark } from "@/components/site-layout";
+import {
+  AdvisoryTrustPanel,
+  CompanySpotlight,
+  LatestServices,
+  ReferenceAbout,
+} from "@/components/home-reference-sections";
+import {
+  featuredServiceImages,
+  featuredServiceSlugs,
+  getPageBySlug,
+  otherServiceSlugs,
+} from "@/data/site";
+import { useSiteLanguage } from "@/lib/i18n";
 
-const serviceIcons = [ClipboardCheck, Calculator, ShieldCheck, FileSpreadsheet, Search, FileSpreadsheet];
-const clients = [
-  "Isolfeu for Specialized Contracting",
-  "Aquila for printing & Carton trade Co.",
-  "United Kitchens for Import & Export",
-  "Comfort foods",
-  "Genuine for Industry & Trade",
-  "Craft Collective for Advertising & Marketing",
-  "Medico Steel Doors",
-  "Ragabco for Import & Export",
-  "Gomla market",
-  "SCIB STEEL FOR TRADING",
-  "Express for Modern Agriculture",
-  "Motamyez",
+const serviceIcons = [
+  ClipboardCheck,
+  Calculator,
+  ShieldCheck,
+  FileSpreadsheet,
+  Search,
+  FileSpreadsheet,
+];
+const socialLinks = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/THDcertifiedaccountant",
+    icon: MessageCircle,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/thdcertifiedaccountant/",
+    icon: Instagram,
+  },
+  { label: "TikTok", href: "https://www.tiktok.com/@thd_certifiedaccountant", icon: Music2 },
+];
+const audiences = [
+  "Startups & entrepreneurs",
+  "Small and growing businesses",
+  "Established companies",
+  "Owners who want clarity",
 ];
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pillar Group | Financial & Tax Consultancy in Egypt" },
-      { name: "description", content: "Professional accounting, auditing, tax advisory and financial consultancy services for businesses across Egypt." },
-      { property: "og:title", content: "Pillar Group | Financial & Tax Consultancy in Egypt" },
-      { property: "og:description", content: "Professional accounting, auditing, tax advisory and financial consultancy services for businesses across Egypt." },
-      { property: "og:site_name", content: "Pillar Group" },
+      { title: "THD Certified Accountant | Accounting & Financial Consultancy" },
+      {
+        name: "description",
+        content:
+          "Practical accounting, tax, audit, and financial consultancy services for businesses in Cairo and across Egypt.",
+      },
+      {
+        property: "og:title",
+        content: "THD Certified Accountant | Accounting & Financial Consultancy",
+      },
+      {
+        property: "og:description",
+        content:
+          "Practical accounting, tax, audit, and financial consultancy services for businesses in Cairo and across Egypt.",
+      },
+      { property: "og:site_name", content: "THD Certified Accountant" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663165155686/KiOIgSTZfzqpcSRJ.jpg" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Pillar Group | Financial & Tax Consultancy in Egypt" },
-      { name: "twitter:description", content: "Professional accounting, auditing, tax advisory and financial consultancy services for businesses across Egypt." },
-      { name: "twitter:image", content: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663165155686/KiOIgSTZfzqpcSRJ.jpg" },
     ],
   }),
   component: HomePage,
 });
 
 function HomePage() {
+  const { language, copy } = useSiteLanguage();
   return (
     <main>
       <section className="pillar-hero" id="home">
-        <img className="pillar-hero__photo" src="/images/pillar/hero-writing.jpg" alt="Financial advisor reviewing business documents" />
+        <img
+          className="pillar-hero__photo"
+          src="/images/pillar/hero-writing.jpg"
+          alt={
+            language === "ar"
+              ? "استشارات محاسبية ومالية من THD"
+              : "THD accounting and financial consultancy"
+          }
+        />
         <div className="pillar-hero__shade" />
         <SiteHeader variant="overlay" />
         <div className="pillar-hero__content">
-          <h1 className="pillar-eyebrow">For financial and tax services and consultancy</h1>
-          <img className="pillar-hero__logo" src="/images/pillar/pillar-full-logo.png" alt="Pillar Group" />
-          <a href="#services" className="pillar-scroll" aria-label="Scroll to services"><ArrowDown /></a>
-          <Button asChild variant="hero"><a href="/contact/">Contact Us</a></Button>
+          <p className="pillar-eyebrow">{copy.heroKicker}</p>
+          <THDWordmark />
+          <h1>{copy.heroTitle}</h1>
+          <p className="hero-description">{copy.heroText}</p>
+          <a href="/contact/" className="pillar-button-hero">
+            {copy.contact} <ArrowUpRight size={16} />
+          </a>
+          <a href="#services" className="pillar-scroll" aria-label="Scroll to services">
+            <ArrowDown />
+          </a>
           <div className="pillar-hero-socials">
-            <a href="https://www.facebook.com/profile.php?id=61582425098619" aria-label="Facebook" target="_blank" rel="noreferrer">f</a>
-            <a href="https://www.instagram.com/pillar1789/" aria-label="Instagram" target="_blank" rel="noreferrer">◎</a>
-            <a href="https://www.youtube.com/piller/" aria-label="YouTube" target="_blank" rel="noreferrer">▶</a>
-            <a href="https://www.tiktok.com/@pillar1789" aria-label="TikTok" target="_blank" rel="noreferrer">♪</a>
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <a href={href} key={label} aria-label={label} target="_blank" rel="noreferrer">
+                <Icon size={15} />
+              </a>
+            ))}
           </div>
         </div>
-        <a className="pillar-whatsapp" href="https://wa.me/201144591010" aria-label="Chat on WhatsApp" target="_blank" rel="noreferrer">W</a>
+        <a
+          className="pillar-whatsapp"
+          href="https://wa.me/201094866609"
+          aria-label={copy.whatsapp}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MessageCircle />
+        </a>
       </section>
 
       <section className="pillar-services section-wrap" id="services">
         <div className="section-heading">
-          <p className="section-kicker">Our Service</p>
-          <h2>Our Services</h2>
-          <p>Empowering your business with precise, reliable, and strategic financial solutions.</p>
+          <p className="section-kicker">{copy.servicesKicker}</p>
+          <h2>{copy.servicesTitle}</h2>
+          <p>{copy.servicesText}</p>
         </div>
         <div className="service-grid">
           {featuredServiceSlugs.map((slug, index) => {
             const service = getPageBySlug(slug);
             const Icon = serviceIcons[index] ?? ClipboardCheck;
             if (!service) return null;
+            const title = language === "ar" ? service.arTitle : service.title;
             return (
               <article className="service-item" key={slug}>
-                <a className="service-photo" href={`/${slug}/`} aria-label={`Learn about ${service.title}`}>
-                  <img src={featuredServiceImages[slug] ?? service.images[0]?.src} alt={service.title} loading="lazy" />
+                <a
+                  className="service-photo"
+                  href={`/${slug}/`}
+                  aria-label={`${copy.readMore}: ${title}`}
+                >
+                  <img src={featuredServiceImages[slug]} alt={title} loading="lazy" />
                   <span className="service-index">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="service-icon"><Icon /></span>
+                  <span className="service-icon">
+                    <Icon />
+                  </span>
                 </a>
-                <div className="service-caption"><h3>{service.title}</h3><a href={`/${slug}/`} aria-label={`Read more about ${service.title}`}><ArrowUpRight /></a></div>
+                <div className="service-caption">
+                  <h3>{title}</h3>
+                  <a href={`/${slug}/`} aria-label={`${copy.readMore}: ${title}`}>
+                    <ArrowUpRight />
+                  </a>
+                </div>
               </article>
             );
           })}
         </div>
         <div className="other-services">
-          <div><p className="section-kicker">Beyond the numbers</p><h3>Other Services</h3></div>
+          <div>
+            <p className="section-kicker">{copy.latestKicker}</p>
+            <h3>{copy.allServices}</h3>
+          </div>
           <div className="other-service-list">
             {otherServiceSlugs.map((slug, index) => {
               const service = getPageBySlug(slug);
-              return service ? <a href={`/${slug}/`} key={slug}><span>{String(index + 1).padStart(2, "0")}</span>{service.title}<ArrowRight /></a> : null;
+              if (!service) return null;
+              return (
+                <a href={`/${slug}/`} key={slug}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {language === "ar" ? service.arTitle : service.title}
+                  <ArrowRight />
+                </a>
+              );
             })}
           </div>
         </div>
@@ -113,52 +190,134 @@ function HomePage() {
 
       <section className="pillar-trust">
         <div className="pillar-trust__copy">
-          <p className="section-kicker">Why Clients Trust Us</p>
-          <h2>Professional insight.<br /><span>Personal commitment.</span></h2>
-          <p>Our clients trust us because we combine professional expertise with strategic clarity. We don’t deliver generic templates — we provide tailored financial guidance designed to protect your business, strengthen your financial decision-making, and support growth with confidence. Every recommendation is backed by proven experience, reliable analysis, and full transparency. With us, you don’t just receive advice — you receive a trusted partner committed to your long-term success.</p>
-          <a href="/why-us/" className="text-link">Why Pillar Group <ArrowRight /></a>
+          <p className="section-kicker">{copy.whyKicker}</p>
+          <h2>{copy.whyTitle}</h2>
+          <p>{copy.whyText}</p>
+          <a href="/why-us/" className="text-link">
+            {copy.readMore} <ArrowRight />
+          </a>
         </div>
-        <div className="pillar-trust__seal"><div className="seal-ring"><ShieldCheck /><span>TRUSTED ADVISORY</span><b>PILLAR</b><span>BUILT ON CLARITY</span></div></div>
+        <div className="pillar-trust__seal">
+          <div className="seal-ring">
+            <ShieldCheck />
+            <span>TRUSTED ADVISORY</span>
+            <b>THD</b>
+            <span>BUILT ON CLARITY</span>
+          </div>
+        </div>
       </section>
 
       <section className="pillar-government">
-        <img src="/images/pillar/about-team.jpg" alt="Professionals meeting with clients" loading="lazy" />
+        <img src="/images/pillar/about-team.jpg" alt={copy.governmentTitle} loading="lazy" />
         <div className="pillar-government__shade" />
         <div className="pillar-government__content">
-          <p className="section-kicker">Facing Challenges with Government Procedures & Compliance?</p>
-          <h2>Government procedures,<br />handled with care.</h2>
+          <p className="section-kicker">{copy.governmentKicker}</p>
+          <h2>{copy.governmentTitle}</h2>
+          <p className="government-description">{copy.governmentText}</p>
           <ul>
-            <li><Check /> We handle all official paperwork & submissions on your behalf.</li>
-            <li><Check /> We follow up with authorities to avoid delays, fines, and rejections.</li>
-            <li><Check /> We ensure full legal & regulatory compliance for your business.</li>
+            <li>
+              <Check />{" "}
+              {language === "ar"
+                ? "تنظيم المستندات والتقديمات الرسمية"
+                : "Organized documents and official submissions"}
+            </li>
+            <li>
+              <Check />{" "}
+              {language === "ar"
+                ? "متابعة الإجراءات مع الجهات المختصة"
+                : "Follow-up with relevant authorities"}
+            </li>
+            <li>
+              <Check />{" "}
+              {language === "ar"
+                ? "دعم يركز على الامتثال وتقليل التأخير"
+                : "Compliance-focused support that reduces friction"}
+            </li>
           </ul>
-          <Button asChild variant="hero"><a href="/government-authorities-support/">Request Government Support Now</a></Button>
+          <a href="/government-authorities-support/" className="pillar-button-hero">
+            {copy.request} <ArrowUpRight size={16} />
+          </a>
         </div>
       </section>
 
       <section className="pillar-clients section-wrap">
-        <div className="section-heading"><p className="section-kicker">Partnerships built on trust</p><h2>Our Key Clients</h2><p>Supporting ambitious businesses across industries.</p></div>
-        <div className="client-grid">{clients.map((client, index) => <div className="client-name" key={client}><span className="client-mark">{client.slice(0, 1)}</span><span>{client}</span><small>{String(index + 1).padStart(2, "0")}</small></div>)}</div>
+        <div className="section-heading">
+          <p className="section-kicker">{copy.aboutKicker}</p>
+          <h2>{language === "ar" ? "لمن نقدم الدعم؟" : "Who we support"}</h2>
+          <p>
+            {language === "ar"
+              ? "دعم محاسبي ومالي يناسب مراحل مختلفة من نمو الأعمال."
+              : "Accounting and financial support for different stages of business growth."}
+          </p>
+        </div>
+        <div className="client-grid">
+          {audiences.map((audience, index) => (
+            <div className="client-name" key={audience}>
+              <span className="client-mark">{String(index + 1).padStart(2, "0")}</span>
+              <span>
+                {language === "ar"
+                  ? [
+                      "الشركات الناشئة ورواد الأعمال",
+                      "الشركات الصغيرة والمتنامية",
+                      "الشركات القائمة",
+                      "أصحاب الأعمال الباحثون عن الوضوح",
+                    ][index]
+                  : audience}
+              </span>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="pillar-consultation" id="contact">
         <div className="pillar-consultation__intro">
-          <p className="section-kicker">GET YOUR CONSULTATION NOW</p>
-          <h2>Get your<br /><span>consultation now.</span></h2>
-          <p>We are here to support your business growth.</p>
-          <a href="tel:+201153338081" className="consult-phone">+20 115 333 8081 <ArrowUpRight /></a>
+          <p className="section-kicker">{copy.consultationKicker}</p>
+          <h2>{copy.consultationTitle}</h2>
+          <p>{copy.consultationText}</p>
+          <a href="tel:+201094866609" className="consult-phone">
+            {copy.phone} <ArrowUpRight />
+          </a>
         </div>
-        <ContactForm className="consultation-form" kicker="Ready to Get Expert Support?" heading="Request Your Consultation Below." />
+        <ContactForm className="consultation-form" />
       </section>
-
       <section className="pillar-feasibility">
-        <div className="pillar-feasibility__symbol"><FileSpreadsheet /></div>
-        <div><p className="section-kicker">Start Your Own Business with Confidence</p><h2>Start your own business<br />with confidence.</h2></div>
-        <ul><li>Feasibility Study Report</li><li>Market & Competitor Analysis</li><li>Financial Projections</li><li>Investment Requirements Planning</li><li>Risk Assessment & Advisory</li></ul>
-        <a href="/feasibility-studies-project-evaluation/" className="feasibility-link">Get Your Feasibility Study Now <ArrowUpRight /></a>
+        <div className="pillar-feasibility__symbol">
+          <FileSpreadsheet />
+        </div>
+        <div>
+          <p className="section-kicker">
+            {language === "ar" ? "خطط لنشاطك بثقة" : "Plan your business with confidence"}
+          </p>
+          <h2>
+            {language === "ar" ? "ابدأ بخطة مالية واضحة." : "Start with a clearer financial plan."}
+          </h2>
+        </div>
+        <ul>
+          {(language === "ar"
+            ? [
+                "تحليل السوق والمنافسين",
+                "التوقعات المالية",
+                "تخطيط احتياجات الاستثمار",
+                "تقييم المخاطر",
+              ]
+            : [
+                "Market and competitor analysis",
+                "Financial projections",
+                "Investment needs planning",
+                "Risk assessment",
+              ]
+          ).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <a href="/feasibility-studies-project-evaluation/" className="feasibility-link">
+          {copy.request} <ArrowUpRight />
+        </a>
       </section>
       <SiteFooter />
-      <a className="pillar-contact-float" href="/contact/">Contact us <ArrowUpRight /></a>
+      <a className="pillar-contact-float" href="/contact/">
+        {copy.contact} <ArrowUpRight size={14} />
+      </a>
     </main>
   );
 }

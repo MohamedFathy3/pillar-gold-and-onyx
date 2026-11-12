@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 180" role="img" aria-labelledby="title desc">
+  <title id="title">THD Certified Accountant</title>
+  <desc id="desc">THD Certified Accountant wordmark</desc>
+  <rect width="512" height="180" rx="20" fill="#24201c"/>
+  <path d="M48 45h112v28h-39v62H87V73H48zM177 45h36v90h-36zm52 0h49c31 0 52 17 52 45s-21 45-52 45h-49zm36 28v34h13c10 0 17-6 17-17s-7-17-17-17z" fill="#e0ae52"/>
+  <text x="369" y="72" fill="#f9f4ea" font-family="Arial, sans-serif" font-size="16" letter-spacing="2">CERTIFIED</text>
+  <text x="369" y="98" fill="#f9f4ea" font-family="Arial, sans-serif" font-size="16" letter-spacing="2">ACCOUNTANT</text>
+  <path d="M369 116h94" stroke="#e0ae52" stroke-width="2"/>
+</svg>
