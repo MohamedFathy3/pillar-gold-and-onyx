@@ -107,9 +107,20 @@
                 <option value="ar">العربية</option>
               </select></label
             ><label class="span-2"
-              >رابط صورة اللوجو (أو ارفعها من مكتبة الصور)<input
-                name="logoUrl"
-                placeholder="/uploads/logo.png أو https://..." /></label
+              >رابط صورة اللوجو
+              <div class="image-field">
+                <input name="logoUrl" placeholder="/uploads/logo.png أو https://..." /><button
+                  type="button"
+                  class="pick-image"
+                  data-target="logoUrl"
+                >
+                  اختيار صورة من الجهاز</button
+                ><input
+                  class="hidden-file"
+                  type="file"
+                  data-image-picker="logoUrl"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                /></div></label
             ><label class="span-2"
               >عنوان الرئيسية — English<input
                 name="heroTitle"
@@ -128,10 +139,23 @@
                 rows="2"
               ></textarea></label
             ><label class="span-2"
-              >رابط صورة خلفية الرئيسية<input
-                name="heroImage"
-                placeholder="/uploads/hero.jpg أو https://..."
-            /></label>
+              >رابط صورة خلفية الرئيسية
+              <div class="image-field">
+                <input name="heroImage" placeholder="/uploads/hero.jpg أو https://..." /><button
+                  type="button"
+                  class="pick-image"
+                  data-target="heroImage"
+                >
+                  اختيار صورة من الجهاز</button
+                ><input
+                  class="hidden-file"
+                  type="file"
+                  data-image-picker="heroImage"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                />
+              </div>
+              /></label
+            >
             <div class="form-actions span-2">
               <button class="primary">حفظ إعدادات الموقع</button>
             </div>

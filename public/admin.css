@@ -549,3 +549,35 @@ button {
   line-height: 1.75;
   text-align: center;
 }
+.image-field {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+}
+.image-field > input:not([type="file"]) {
+  flex: 1;
+  min-width: 0;
+  direction: ltr;
+}
+.pick-image {
+  flex: none;
+  padding: 9px 12px;
+  border: 1px solid #c7b893;
+  border-radius: 3px;
+  background: #f7f4ed;
+  color: #624c27;
+  font-size: 11px;
+  font-weight: 700;
+}
+.pick-image:hover {
+  background: #eee5d2;
+}
+.hidden-file {
+  display: none !important;
+}
+.inline-upload {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}

@@ -136,7 +136,7 @@ function drawPage() {
     box.innerHTML = "<p>لا توجد صفحات قابلة للتحرير.</p>";
     return;
   }
-  box.innerHTML = `<label>عنوان الصفحة — English<input data-field="title" value="${attr(p.title || "")}"></label><label>عنوان الصفحة — العربية<input dir="rtl" data-field="titleAr" value="${attr(p.titleAr || "")}"></label><label>المسار<input data-field="slug" value="${attr(p.slug || "")}" disabled></label><label>وصف الصفحة — English<textarea data-field="description" rows="3">${esc(p.description || "")}</textarea></label><label class="span-2">وصف الصفحة — العربية<textarea dir="rtl" data-field="descriptionAr" rows="3">${esc(p.descriptionAr || "")}</textarea></label><label class="span-2">صورة الصفحة الرئيسية / الغلاف<input data-field="featureImage" value="${attr(p.featureImage || p.images?.find((i) => i.src)?.src || "")}" placeholder="/uploads/image.jpg أو https://..."></label><label class="span-2">محتوى الصفحة — English (JSON)<textarea data-field="blocks" rows="10">${esc(JSON.stringify(p.blocks || [], null, 2))}</textarea></label><label class="span-2">محتوى الصفحة — العربية (JSON)<textarea dir="rtl" data-field="blocksAr" rows="10">${esc(JSON.stringify(p.blocksAr || [], null, 2))}</textarea><small>نفس بنية المحتوى الإنجليزي؛ اتركه فارغًا لاستخدام المحتوى الإنجليزي.</small></label><label class="span-2">روابط الصفحة (JSON)<textarea data-field="links" rows="4">${esc(JSON.stringify(p.links || [], null, 2))}</textarea></label>`;
+  box.innerHTML = `<label>عنوان الصفحة — English<input data-field="title" value="${attr(p.title || "")}"></label><label>عنوان الصفحة — العربية<input dir="rtl" data-field="titleAr" value="${attr(p.titleAr || "")}"></label><label>المسار<input data-field="slug" value="${attr(p.slug || "")}" disabled></label><label>وصف الصفحة — English<textarea data-field="description" rows="3">${esc(p.description || "")}</textarea></label><label class="span-2">وصف الصفحة — العربية<textarea dir="rtl" data-field="descriptionAr" rows="3">${esc(p.descriptionAr || "")}</textarea></label><label class="span-2">صورة الصفحة الرئيسية / الغلاف<div class="image-field"><input data-field="featureImage" value="${attr(p.featureImage || p.images?.find((i) => i.src)?.src || "")}" placeholder="/uploads/image.jpg أو https://..."><button type="button" class="pick-image" data-target="featureImage">اختيار صورة من الجهاز</button><input class="hidden-file" type="file" data-image-picker="featureImage" accept="image/jpeg,image/png,image/webp,image/gif"></div></label><label class="span-2">محتوى الصفحة — English (JSON)<textarea data-field="blocks" rows="10">${esc(JSON.stringify(p.blocks || [], null, 2))}</textarea><span class="inline-upload"><button type="button" class="pick-image" data-target="blocks">رفع صورة وإضافتها للمحتوى الإنجليزي</button><input class="hidden-file" type="file" data-image-picker="blocks" accept="image/jpeg,image/png,image/webp,image/gif"></span></label><label class="span-2">محتوى الصفحة — العربية (JSON)<textarea dir="rtl" data-field="blocksAr" rows="10">${esc(JSON.stringify(p.blocksAr || [], null, 2))}</textarea><small>نفس بنية المحتوى الإنجليزي؛ اتركه فارغًا لاستخدام المحتوى الإنجليزي.</small><span class="inline-upload"><button type="button" class="pick-image" data-target="blocksAr">رفع صورة وإضافتها للمحتوى العربي</button><input class="hidden-file" type="file" data-image-picker="blocksAr" accept="image/jpeg,image/png,image/webp,image/gif"></span></label><label class="span-2">روابط الصفحة (JSON)<textarea data-field="links" rows="4">${esc(JSON.stringify(p.links || [], null, 2))}</textarea></label>`;
 }
 $("#page-select").onchange = drawPage;
 $("#save-page").onclick = async () => {
@@ -282,5 +282,58 @@ function esc(s) {
 function attr(s) {
   return esc(s);
 }
+document.addEventListener("click", (event) => {
+  const button = event.target.closest(".pick-image");
+  if (!button) return;
+  const picker = document.querySelector(
+    `[data-image-picker="${CSS.escape(button.dataset.target)}"]`,
+  );
+  picker?.click();
+});
+document.addEventListener("change", async (event) => {
+  const picker = event.target.closest("[data-image-picker]");
+  const file = picker?.files?.[0];
+  if (!picker || !file) return;
+  if (file.size > 25 * 1024 * 1024) {
+    toast("الحد الأقصى لحجم الصورة 25 ميجابايت", true);
+    picker.value = "";
+    return;
+  }
+  try {
+    const data = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+    const item = await api("media", {
+      method: "POST",
+      body: JSON.stringify({ name: file.name, data }),
+    });
+    state.media.unshift(item);
+    renderMedia();
+    $("#media-count").textContent = state.media.length;
+    const target = picker.dataset.imagePicker;
+    if (target === "blocks" || target === "blocksAr") {
+      const textarea = $(`[data-field="${target}"]`);
+      const blocks = textarea.value.trim() ? JSON.parse(textarea.value) : [];
+      if (!Array.isArray(blocks)) throw Error("صيغة محتوى الصفحة يجب أن تكون قائمة JSON");
+      blocks.push({ type: "image", src: item.url, alt: file.name });
+      textarea.value = JSON.stringify(blocks, null, 2);
+      toast("تم رفع الصورة وإضافتها للمحتوى. اضغط حفظ الصفحة لتثبيتها.");
+    } else {
+      const input =
+        target === "featureImage"
+          ? $(`[data-field="${target}"]`)
+          : $(`#appearance-form [name="${CSS.escape(target)}"]`);
+      if (input) input.value = item.url;
+      toast("تم رفع الصورة. اضغط حفظ الإعدادات أو حفظ الصفحة لتطبيقها.");
+    }
+  } catch (error) {
+    toast(error.message || "تعذر رفع الصورة", true);
+  } finally {
+    picker.value = "";
+  }
+});
 if (token) init();
 else loginView();
