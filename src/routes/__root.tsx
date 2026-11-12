@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
+import { SITE_DESCRIPTION, SITE_NAME } from "../lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -76,29 +77,18 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
-    // Replace these placeholders with the app's name and description when first building the app.
-    // Each content route, / included, must still set its own head(). Never add og:image or
-    // twitter:image here: every page without its own would inherit the root's preview image.
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "THD Certified Accountant | Accounting & Financial Consultancy" },
-      {
-        name: "description",
-        content:
-          "Practical accounting, tax, audit, and financial consultancy services for businesses in Egypt.",
-      },
-      { name: "author", content: "THD Certified Accountant" },
-      {
-        property: "og:title",
-        content: "THD Certified Accountant | Accounting & Financial Consultancy",
-      },
-      {
-        property: "og:description",
-        content:
-          "Practical accounting, tax, audit, and financial consultancy services for businesses in Egypt.",
-      },
+      { title: `${SITE_NAME} | Accounting & Tax Services in Egypt` },
+      { name: "description", content: SITE_DESCRIPTION },
+      { name: "author", content: SITE_NAME },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
+      { name: "theme-color", content: "#04223f" },
+      { property: "og:site_name", content: SITE_NAME },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "ar_EG" },
+      { property: "og:locale:alternate", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -106,7 +96,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -126,12 +118,9 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-        <script>document.documentElement.classList.add("cms-pending")</script>
-        <style>{`.cms-pending body { visibility: hidden; }`}</style>
       </head>
       <body>
         {children}
-        <script src="/cms-runtime.js" defer />
         <Scripts />
       </body>
     </html>

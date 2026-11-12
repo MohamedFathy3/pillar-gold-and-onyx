@@ -1,8 +1,7 @@
 {
   "routes": [
-    { "path": "/", "title": "THD Certified Accountant" },
+    { "path": "/", "title": "Nour Essam El-Din Chartered Accountant" },
     { "path": "/:slug", "title": "THD content page" },
-    { "path": "/admin", "title": "Admin dashboard" },
     { "path": "/services/", "title": "Our Services" },
     { "path": "/about/", "title": "About THD" },
     { "path": "/why-us/", "title": "Why Choose THD" },

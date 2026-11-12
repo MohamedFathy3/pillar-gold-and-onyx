@@ -20,18 +20,19 @@ export type ReferencePage = {
 
 const heroImage = "/images/pillar/hero-writing.jpg";
 const aboutImage = "/images/pillar/about-team.jpg";
+const serviceImage = "/images/pillar/audit-service.jpg";
 export const featuredServiceImages: Record<string, string> = {
-  "audit-external-financial-review": "/images/pillar/audit-service.jpg",
-  "comprehensive-tax-advisory": "/images/pillar/tax-advisory.jpg",
-  "internal-audit-services": "/images/pillar/internal-audit.jpg",
-  "tax-returns-filing": "/images/pillar/tax-filing.jpg",
-  "tax-examination-inspection-support": "/images/pillar/tax-examination.jpg",
-  "financial-statements-preparation": "/images/pillar/statements.jpg",
+  "audit-external-financial-review": "/images/service/المراجعة والتدقيق امالى الخارجى.png",
+  "comprehensive-tax-advisory": "/images/service/الاستشارات الضريبية الشاملة_.png",
+  "internal-audit-services": "/images/service/خدمات المراجعة الداخلية_.png",
+  "tax-returns-filing": "/images/service/اعداد وتقديدم القراارت الضريبيبة.png",
+  "tax-examination-inspection-support": "/images/service/دعم الفحض والتفتيش الضريبي.png",
+  "financial-statements-preparation": "/images/service/اعداد القوائم المالية_.png",
   "e-invoicing-services": "/images/pillar/tax-filing.jpg",
   "company-formation-registration": aboutImage,
   "payroll-internal-reporting-support": "/images/pillar/statements.jpg",
   "feasibility-studies-project-evaluation": heroImage,
-  "assets-business-valuation": "/images/pillar/audit-service.jpg",
+  "assets-business-valuation": serviceImage,
   "government-authorities-support": "/images/pillar/tax-examination.jpg",
 };
 

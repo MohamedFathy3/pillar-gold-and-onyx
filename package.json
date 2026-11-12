@@ -5,9 +5,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "node server/dev.mjs",
-    "dev:web": "vite dev",
-    "dev:api": "node --experimental-sqlite server/api.mjs",
+    "dev": "vite dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",

@@ -15,6 +15,7 @@ import {
   type ReferencePage,
 } from "@/data/site";
 import { useSiteLanguage } from "@/lib/i18n";
+import { SITE_NAME, SITE_SOCIAL_IMAGE, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/$slug")({
   loader: ({ params }) => {
@@ -23,23 +24,35 @@ export const Route = createFileRoute("/$slug")({
     return page;
   },
   head: ({ loaderData }) => {
-    const page = loaderData ?? getPageBySlug("home");
+    const page = loaderData;
     if (!page)
       return {
         meta: [
-          { title: "Page not found | THD Certified Accountant" },
+          { title: `Page not found | ${SITE_NAME}` },
           { name: "robots", content: "noindex, follow" },
         ],
       };
+    const canonicalUrl = new URL(page.route, SITE_URL).href;
+    const title = `${page.title} | ${SITE_NAME}`;
     return {
       meta: [
-        { title: `${page.title} | THD Certified Accountant` },
+        { title },
         { name: "description", content: page.description },
-        { property: "og:title", content: `${page.title} | THD Certified Accountant` },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:title", content: title },
         { property: "og:description", content: page.description },
-        { property: "og:site_name", content: "THD Certified Accountant" },
+        { property: "og:image", content: SITE_SOCIAL_IMAGE },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "og:image:alt", content: `${SITE_NAME} logo` },
+        { property: "og:site_name", content: SITE_NAME },
         { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: page.description },
+        { name: "twitter:image", content: SITE_SOCIAL_IMAGE },
       ],
+      links: [{ rel: "canonical", href: canonicalUrl }],
     };
   },
   component: RoutedPage,

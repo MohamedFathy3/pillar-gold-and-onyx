@@ -1,19 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Calculator,
   Check,
   ClipboardCheck,
   FileSpreadsheet,
-  Instagram,
-  MessageCircle,
-  Music2,
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { ContactForm, SiteFooter, SiteHeader, THDWordmark } from "@/components/site-layout";
+import { ContactForm, SiteFooter, SiteHeader } from "@/components/site-layout";
 import {
   AdvisoryTrustPanel,
   CompanySpotlight,
@@ -27,6 +23,13 @@ import {
   otherServiceSlugs,
 } from "@/data/site";
 import { useSiteLanguage } from "@/lib/i18n";
+import {
+  accountingServiceStructuredData,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_SOCIAL_IMAGE,
+  SITE_URL,
+} from "@/lib/seo";
 
 const serviceIcons = [
   ClipboardCheck,
@@ -35,19 +38,6 @@ const serviceIcons = [
   FileSpreadsheet,
   Search,
   FileSpreadsheet,
-];
-const socialLinks = [
-  {
-    label: "Facebook",
-    href: "https://www.facebook.com/THDcertifiedaccountant",
-    icon: MessageCircle,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/thdcertifiedaccountant/",
-    icon: Instagram,
-  },
-  { label: "TikTok", href: "https://www.tiktok.com/@thd_certifiedaccountant", icon: Music2 },
 ];
 const audiences = [
   "Startups & entrepreneurs",
@@ -59,24 +49,31 @@ const audiences = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "THD Certified Accountant | Accounting & Financial Consultancy" },
+      { title: `${SITE_NAME} | Chartered Accountant in Cairo, Egypt` },
       {
         name: "description",
-        content:
-          "Practical accounting, tax, audit, and financial consultancy services for businesses in Cairo and across Egypt.",
+        content: SITE_DESCRIPTION,
       },
+      {
+        name: "keywords",
+        content:
+          "Nour Essam El-Din, chartered accountant Cairo, accountant Egypt, accounting services, tax services, audit, محاسب قانوني, محاسب قانوني القاهرة, محاسب قانوني مصر, خدمات محاسبية, خدمات ضريبية",
+      },
+      { property: "og:url", content: SITE_URL },
       {
         property: "og:title",
-        content: "THD Certified Accountant | Accounting & Financial Consultancy",
+        content: `${SITE_NAME} | Chartered Accountant in Cairo, Egypt`,
       },
-      {
-        property: "og:description",
-        content:
-          "Practical accounting, tax, audit, and financial consultancy services for businesses in Cairo and across Egypt.",
-      },
-      { property: "og:site_name", content: "THD Certified Accountant" },
-      { property: "og:type", content: "website" },
+      { property: "og:description", content: SITE_DESCRIPTION },
+      { property: "og:image", content: SITE_SOCIAL_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: `${SITE_NAME} logo` },
+      { name: "twitter:title", content: `${SITE_NAME} | Chartered Accountant in Egypt` },
+      { name: "twitter:description", content: SITE_DESCRIPTION },
+      { name: "twitter:image", content: SITE_SOCIAL_IMAGE },
     ],
+    links: [{ rel: "canonical", href: SITE_URL }],
   }),
   component: HomePage,
 });
@@ -85,46 +82,34 @@ function HomePage() {
   const { language, copy } = useSiteLanguage();
   return (
     <main>
+      <script type="application/ld+json">
+        {JSON.stringify(accountingServiceStructuredData)}
+      </script>
       <section className="pillar-hero" id="home">
-        <img
-          className="pillar-hero__photo"
-          src="/images/pillar/hero-writing.jpg"
-          alt={
-            language === "ar"
-              ? "استشارات محاسبية ومالية من THD"
-              : "THD accounting and financial consultancy"
-          }
-        />
-        <div className="pillar-hero__shade" />
-        <SiteHeader variant="overlay" />
-        <div className="pillar-hero__content">
-          <p className="pillar-eyebrow">{copy.heroKicker}</p>
-          <THDWordmark />
-          <h1>{copy.heroTitle}</h1>
-          <p className="hero-description">{copy.heroText}</p>
-          <a href="/contact/" className="pillar-button-hero">
-            {copy.contact} <ArrowUpRight size={16} />
-          </a>
-          <a href="#services" className="pillar-scroll" aria-label="Scroll to services">
-            <ArrowDown />
-          </a>
-          <div className="pillar-hero-socials">
-            {socialLinks.map(({ label, href, icon: Icon }) => (
-              <a href={href} key={label} aria-label={label} target="_blank" rel="noreferrer">
-                <Icon size={15} />
-              </a>
-            ))}
-          </div>
-        </div>
-        <a
-          className="pillar-whatsapp"
-          href="https://wa.me/201094866609"
-          aria-label={copy.whatsapp}
-          target="_blank"
-          rel="noreferrer"
+        <video
+          className="pillar-hero__video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
         >
-          <MessageCircle />
-        </a>
+          <source src="/AI_managing_accounting_process_66c6bfe3.mp4" type="video/mp4" />
+        </video>
+        <SiteHeader variant="overlay" />
+        <svg
+          className="pillar-hero__wave"
+          viewBox="0 0 1920 110"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            className="pillar-hero__wave-accent"
+            d="M0 12C330 30 600 92 900 76S1510 18 1920 0V110H0Z"
+          />
+          <path d="M0 32C330 48 610 108 920 91S1520 40 1920 25V110H0Z" />
+        </svg>
       </section>
 
       <section className="pillar-services section-wrap" id="services">

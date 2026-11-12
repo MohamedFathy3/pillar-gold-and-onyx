@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { allServicePages, primaryNavigation } from "@/data/site";
 import { useSiteLanguage } from "@/lib/i18n";
+import { SITE_NAME } from "@/lib/seo";
 
 const socials = [
   { label: "Facebook", href: "https://www.facebook.com/THDcertifiedaccountant", icon: Facebook },
@@ -27,10 +28,8 @@ export function THDWordmark({ compact = false }: { compact?: boolean }) {
   return (
     <span
       className={compact ? "thd-wordmark thd-wordmark--compact" : "thd-wordmark"}
-      aria-label="THD Certified Accountant"
     >
-      <strong>THD</strong>
-      <small>Certified Accountant</small>
+      <img src="/logo%20(3).png" alt={SITE_NAME} />
     </span>
   );
 }
@@ -42,7 +41,7 @@ export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid
   const closeMenu = () => setMenuOpen(false);
   return (
     <header className={`pillar-header ${variant === "solid" ? "pillar-header--solid" : ""}`}>
-      <a className="pillar-brand" href="/" aria-label="THD Certified Accountant home">
+      <a className="pillar-brand" href="/" aria-label={`${SITE_NAME} home`}>
         <THDWordmark />
       </a>
       <button
@@ -113,7 +112,7 @@ export function SiteFooter() {
     <footer className="pillar-footer">
       <div className="pillar-footer__top">
         <div className="pillar-footer__brand">
-          <a href="/" aria-label="THD Certified Accountant home">
+          <a href="/" aria-label={`${SITE_NAME} home`}>
             <THDWordmark />
           </a>
           <p>{copy.footerText}</p>
@@ -163,7 +162,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="pillar-footer__bottom">
-        <span>© 2026 THD Certified Accountant. All rights reserved.</span>
+        <span>© 2026 {SITE_NAME}. All rights reserved.</span>
         <a href="/privacy-policy/">
           Privacy Policy <ArrowUpRight />
         </a>
