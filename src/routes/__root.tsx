@@ -82,10 +82,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Pillar Group | Financial & Tax Consultancy in Egypt" },
-      { name: "description", content: "Professional accounting, auditing and tax advisory services for businesses across Egypt." },
+      {
+        name: "description",
+        content:
+          "Professional accounting, auditing and tax advisory services for businesses across Egypt.",
+      },
       { name: "author", content: "Pillar Group" },
       { property: "og:title", content: "Pillar Group | Financial & Tax Consultancy in Egypt" },
-      { property: "og:description", content: "Professional accounting, auditing and tax advisory services for businesses across Egypt." },
+      {
+        property: "og:description",
+        content:
+          "Professional accounting, auditing and tax advisory services for businesses across Egypt.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -97,7 +105,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -111,6 +122,8 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script>document.documentElement.classList.add("cms-pending")</script>
+        <style>{`.cms-pending body { visibility: hidden; }`}</style>
       </head>
       <body>
         {children}

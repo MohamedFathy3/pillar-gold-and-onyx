@@ -225,10 +225,59 @@
       localStorage.setItem("pillar-language", s.defaultLanguage);
     applyTranslations();
   }
-  fetch("/api/public/content")
-    .then((response) => (response.ok ? response.json() : null))
-    .then((data) => {
-      if (data) install(data);
+  const cacheKey = "pillar-cms-content-v1";
+  let hasContent = false;
+  function validContent(data) {
+    return !!data && typeof data === "object" && !!data.settings && Array.isArray(data.pages);
+  }
+  function afterHydration(callback) {
+    const render = () => requestAnimationFrame(() => requestAnimationFrame(callback));
+    if (document.readyState === "loading")
+      document.addEventListener("DOMContentLoaded", render, { once: true });
+    else render();
+  }
+  function applyAfterHydration(data) {
+    if (!validContent(data)) return;
+    hasContent = true;
+    afterHydration(() => {
+      install(data);
+      document.documentElement.classList.remove("cms-pending");
+    });
+  }
+  try {
+    const cached = JSON.parse(localStorage.getItem(cacheKey) || "null");
+    if (validContent(cached)) applyAfterHydration(cached);
+  } catch {
+    try {
+      localStorage.removeItem(cacheKey);
+    } catch {
+      // Storage can be disabled by browser policy.
+    }
+  }
+  const controller = new AbortController();
+  const requestTimeout = setTimeout(() => controller.abort(), 8000);
+  fetch("/api/public/content", {
+    cache: "no-store",
+    headers: { Accept: "application/json" },
+    signal: controller.signal,
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(`CMS API returned ${response.status}`);
+      return response.json();
     })
-    .catch(() => {});
+    .then((data) => {
+      clearTimeout(requestTimeout);
+      if (!validContent(data)) throw new Error("CMS API returned invalid content");
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+      } catch {
+        // The live API stays authoritative even when browser storage is unavailable/full.
+      }
+      applyAfterHydration(data);
+    })
+    .catch((error) => {
+      clearTimeout(requestTimeout);
+      console.error("Pillar CMS API unavailable; using cached/static site content.", error);
+      if (!hasContent) document.documentElement.classList.remove("cms-pending");
+    });
 })();
