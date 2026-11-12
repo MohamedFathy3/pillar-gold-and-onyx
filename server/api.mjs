@@ -10,10 +10,17 @@ const dbDir = join(root, "data");
 const uploadDir = join(root, "public", "uploads");
 mkdirSync(dbDir, { recursive: true });
 mkdirSync(uploadDir, { recursive: true });
-const db = new DatabaseSync(join(dbDir, "pillar.sqlite"));
+const db = new DatabaseSync(process.env.SQLITE_PATH || join(dbDir, "pillar.sqlite"));
 db.exec(
-  "PRAGMA journal_mode=WAL; CREATE TABLE IF NOT EXISTS records (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP); CREATE TABLE IF NOT EXISTS media (id TEXT PRIMARY KEY, name TEXT NOT NULL, url TEXT NOT NULL, kind TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);",
+  "PRAGMA journal_mode=WAL; CREATE TABLE IF NOT EXISTS records (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP); CREATE TABLE IF NOT EXISTS media (id TEXT PRIMARY KEY, name TEXT NOT NULL, url TEXT NOT NULL, kind TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, external INTEGER NOT NULL DEFAULT 0);",
 );
+if (
+  !db
+    .prepare("PRAGMA table_info(media)")
+    .all()
+    .some((column) => column.name === "external")
+)
+  db.exec("ALTER TABLE media ADD COLUMN external INTEGER NOT NULL DEFAULT 0");
 const get = db.prepare("SELECT value FROM records WHERE key=?");
 const put = db.prepare(
   "INSERT INTO records(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP",
@@ -121,7 +128,9 @@ const server = createServer(async (req, res) => {
           pages: record("pages"),
           links: record("links"),
           media: db
-            .prepare("SELECT id,name,url,kind,created_at FROM media ORDER BY created_at DESC")
+            .prepare(
+              "SELECT id,name,url,kind,created_at,external FROM media ORDER BY created_at DESC",
+            )
             .all(),
         });
       if (path === "/api/settings" && req.method === "POST") {
@@ -178,15 +187,47 @@ const server = createServer(async (req, res) => {
         );
         return json(res, 201, item);
       }
+      if (path === "/api/media/link" && req.method === "POST") {
+        const value = await body(req, 20000);
+        let parsed;
+        try {
+          parsed = new URL(String(value.url || ""));
+        } catch {
+          return json(res, 400, { error: "أدخل رابطًا صالحًا يبدأ بـ https://" });
+        }
+        if (parsed.protocol !== "https:" || parsed.username || parsed.password)
+          return json(res, 400, {
+            error: "الرابط الخارجي يجب أن يبدأ بـ https:// ولا يحتوي بيانات دخول",
+          });
+        const ext = extname(parsed.pathname).toLowerCase();
+        const video = [".mp4", ".webm", ".mov"].includes(ext);
+        const id = randomUUID();
+        const item = {
+          id,
+          name: String(value.name || basename(parsed.pathname) || parsed.hostname).slice(0, 200),
+          url: parsed.href,
+          kind: video ? "video" : "image",
+          external: true,
+        };
+        db.prepare("INSERT INTO media(id,name,url,kind,external) VALUES(?,?,?,?,1)").run(
+          item.id,
+          item.name,
+          item.url,
+          item.kind,
+        );
+        return json(res, 201, item);
+      }
       if (path.startsWith("/api/media/") && req.method === "DELETE") {
         const id = path.split("/").pop();
         const item = db.prepare("SELECT * FROM media WHERE id=?").get(id);
         if (item) {
-          try {
-            await import("node:fs/promises").then((fs) =>
-              fs.unlink(join(uploadDir, basename(item.url))),
-            );
-          } catch {}
+          if (!item.external) {
+            try {
+              await import("node:fs/promises").then((fs) =>
+                fs.unlink(join(uploadDir, basename(item.url))),
+              );
+            } catch {}
+          }
           db.prepare("DELETE FROM media WHERE id=?").run(id);
         }
         return json(res, 200, { ok: true });

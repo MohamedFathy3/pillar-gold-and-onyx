@@ -32,9 +32,9 @@
         </div>
         <nav id="nav">
           <button class="nav-item active" data-tab="overview">نظرة عامة</button
-          ><button class="nav-item" data-tab="appearance">الألوان والخطوط</button
-          ><button class="nav-item" data-tab="content">المحتوى والصفحات</button
-          ><button class="nav-item" data-tab="media">الصور والفيديو</button
+          ><button class="nav-item" data-tab="appearance">الهوية واللوجو</button
+          ><button class="nav-item" data-tab="content">الصفحات واللغات</button
+          ><button class="nav-item" data-tab="media">مكتبة الصور والفيديو</button
           ><button class="nav-item" data-tab="links">الروابط</button>
         </nav>
         <div class="sidebar-foot">
@@ -58,7 +58,7 @@
             <div>
               <p class="eyebrow">مساحة عملك</p>
               <h2>كل تفاصيل موقعك،<br />في مكان واحد.</h2>
-              <p>عدّل الهوية والمحتوى والوسائط والروابط مع الحفاظ على تصميم الموقع الحالي.</p>
+              <p>إدارة الصور واللوجو ومحتوى الصفحات بالعربية والإنجليزية.</p>
             </div>
             <div class="welcome-art">P<span>ILLAR</span><i></i></div>
           </div>
@@ -81,9 +81,9 @@
               </div>
             </div>
             <div class="quick-actions">
-              <button data-jump="appearance">تعديل ألوان وخطوط الموقع <span>←</span></button
-              ><button data-jump="content">تحرير عناوين ونصوص الصفحات <span>←</span></button
-              ><button data-jump="media">إضافة صورة أو فيديو <span>←</span></button
+              <button data-jump="appearance">تغيير اللوجو وألوان الموقع <span>←</span></button
+              ><button data-jump="content">تحرير صفحات عربي وإنجليزي <span>←</span></button
+              ><button data-jump="media">رفع صورة أو إضافة رابطها <span>←</span></button
               ><button data-jump="links">تحديث الروابط <span>←</span></button>
             </div>
           </div>
@@ -91,8 +91,8 @@
         <section class="panel" id="tab-appearance">
           <div class="intro">
             <p class="eyebrow">الهوية البصرية</p>
-            <h2>الألوان والخطوط</h2>
-            <p>تُحفظ الإعدادات في قاعدة البيانات. التصميم الحالي للصفحات لا يتغير.</p>
+            <h2>اللوجو والألوان</h2>
+            <p>ارفع اللوجو أو الصق رابط الصورة، وتقدر تعيّن خلفية الصفحة الرئيسية أيضًا.</p>
           </div>
           <form id="appearance-form" class="card form-grid">
             <label>اللون الأساسي<input name="primary" type="color" /></label
@@ -102,22 +102,49 @@
             ><label class="span-2"
               >نوع الخط<input name="font" placeholder="Cairo, sans-serif" /></label
             ><label class="span-2"
-              >عنوان الصفحة الرئيسية<input name="heroTitle" placeholder="العنوان الرئيسي" /></label
+              >لغة الموقع الافتراضية<select name="defaultLanguage">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+              </select></label
             ><label class="span-2"
-              >وصف الصفحة الرئيسية<textarea name="heroSubtitle" rows="3"></textarea></label
+              >رابط صورة اللوجو (أو ارفعها من مكتبة الصور)<input
+                name="logoUrl"
+                placeholder="/uploads/logo.png أو https://..." /></label
             ><label class="span-2"
-              >رابط صورة الخلفية<input
+              >عنوان الرئيسية — English<input
+                name="heroTitle"
+                placeholder="Homepage headline" /></label
+            ><label class="span-2"
+              >عنوان الرئيسية — العربية<input
+                name="heroTitleAr"
+                dir="rtl"
+                placeholder="عنوان الصفحة الرئيسية" /></label
+            ><label class="span-2"
+              >وصف الرئيسية — English<textarea name="heroSubtitle" rows="2"></textarea></label
+            ><label class="span-2"
+              >وصف الرئيسية — العربية<textarea
+                name="heroSubtitleAr"
+                dir="rtl"
+                rows="2"
+              ></textarea></label
+            ><label class="span-2"
+              >رابط صورة خلفية الرئيسية<input
                 name="heroImage"
-                placeholder="/images/pillar/hero-writing.jpg أو رابط"
+                placeholder="/uploads/hero.jpg أو https://..."
             /></label>
-            <div class="form-actions span-2"><button class="primary">حفظ الهوية</button></div>
+            <div class="form-actions span-2">
+              <button class="primary">حفظ إعدادات الموقع</button>
+            </div>
           </form>
         </section>
         <section class="panel" id="tab-content">
           <div class="intro">
             <p class="eyebrow">إدارة صفحاتك</p>
-            <h2>المحتوى والصفحات</h2>
-            <p>عدّل العناوين والوصف والروابط للصفحات الموجودة.</p>
+            <h2>الصفحات والمحتوى بلغتين</h2>
+            <p>
+              اختار الصفحة وعدّل عنوانها ونصوصها وصورتها بالعربية والإنجليزية. اكتب مسارًا محليًا أو
+              رابطًا، أو انسخ رابط صورة من المكتبة.
+            </p>
           </div>
           <div class="card">
             <div class="toolbar">
@@ -130,19 +157,29 @@
         <section class="panel" id="tab-media">
           <div class="intro">
             <p class="eyebrow">مكتبة الوسائط</p>
-            <h2>الصور والفيديو</h2>
-            <p>ارفع ملفات الصور والفيديو، واحفظها في مجلد uploads وقاعدة بيانات الموقع.</p>
+            <h2>صور وفيديو الموقع</h2>
+            <p>
+              ارفع من جهازك (حتى 25 MB)، أو الصق رابط صورة/فيديو خارجي HTTPS. انسخ رابط الملف
+              لتعيينه كلوجو أو صورة صفحة.
+            </p>
           </div>
           <form id="upload-form" class="upload-box">
             <div class="upload-symbol">↑</div>
-            <h3>أضف وسائط جديدة</h3>
-            <p>اختر ملف صورة أو فيديو. الحد الأقصى 25 ميجابايت.</p>
+            <h3>رفع ملف من جهازك</h3>
+            <p>JPG, PNG, WebP, GIF, MP4, WebM, MOV — الحد الأقصى 25 ميجابايت.</p>
             <input
               id="media-file"
               type="file"
               accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
-              required
             /><button class="primary">رفع الملف</button>
+          </form>
+          <form id="add-media-url" class="card link-add">
+            <input name="name" placeholder="اسم الصورة/الفيديو (اختياري)" /><input
+              name="url"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              required
+            /><button class="primary">إضافة الرابط للمكتبة</button>
           </form>
           <div id="media-list" class="media-grid"></div>
         </section>

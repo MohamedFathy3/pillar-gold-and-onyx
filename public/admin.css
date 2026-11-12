@@ -511,3 +511,41 @@ button {
     font-size: 21px;
   }
 }
+.media-url {
+  display: flex;
+  gap: 5px;
+  margin: 8px 0;
+}
+.media-url input {
+  min-width: 0;
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #dedbd3;
+  font-size: 10px;
+  direction: ltr;
+}
+.media-url button {
+  flex: none;
+  background: #eee9df;
+  padding: 6px;
+  color: #5c4727;
+  font-size: 10px;
+}
+.media-item > button[data-delete] {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #fff0ed;
+  color: #9a3b32;
+}
+.media-item small {
+  display: block;
+  color: #927c54;
+}
+.pillar-hero-description {
+  max-width: 620px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+  line-height: 1.75;
+  text-align: center;
+}
