@@ -193,7 +193,11 @@ function HomePage() {
       </section>
 
       <section className="pillar-government">
-        <img src="/images/pillar/about-team.jpg" alt={copy.governmentTitle} loading="lazy" />
+        <img
+          src="/%D8%AF%D8%B9%D9%85%20%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%85%D9%84%20%D9%85%D8%B9%20%D8%A7%D9%84%D8%AC%D9%87%D8%A7%D8%AA%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9.png"
+          alt={copy.governmentTitle}
+          loading="lazy"
+        />
         <div className="pillar-government__shade" />
         <div className="pillar-government__content">
           <p className="section-kicker">{copy.governmentKicker}</p>
