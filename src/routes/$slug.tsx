@@ -1,7 +1,12 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Check, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { ContactForm, SiteFooter, SiteHeader } from "@/components/site-layout";
+import {
+  ContactForm,
+  FloatingWhatsAppButton,
+  SiteFooter,
+  SiteHeader,
+} from "@/components/site-layout";
 import {
   allServicePages,
   allServiceSlugs,
@@ -79,15 +84,7 @@ function PageFrame({ children }: { children: ReactNode }) {
       <a className="pillar-contact-float" href="/contact/">
         {copy.contact} <ArrowUpRight size={15} />
       </a>
-      <a
-        className="pillar-whatsapp interior-whatsapp"
-        href="https://wa.me/201094866609"
-        aria-label={copy.whatsapp}
-        target="_blank"
-        rel="noreferrer"
-      >
-        W
-      </a>
+      <FloatingWhatsAppButton className="interior-whatsapp" />
     </main>
   );
 }
@@ -150,7 +147,7 @@ function ServicesPage({ page, language }: { page: ReferencePage; language: "en" 
               if (!item) return null;
               return (
                 <a href={`/${slug}/`} key={slug}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {/* <span>{String(index + 1).padStart(2, "0")}</span> */}
                   {language === "ar" ? item.arTitle : item.title}
                   <ArrowRight />
                 </a>
@@ -277,7 +274,7 @@ function ContactPage({ page }: { page: ReferencePage }) {
     "https://www.facebook.com/THDcertifiedaccountant",
     "https://www.instagram.com/thdcertifiedaccountant/",
     "https://www.tiktok.com/@thd_certifiedaccountant",
-    "https://wa.me/201094866609",
+    "https://wa.me/201118383747",
   ];
   return (
     <PageFrame>
@@ -297,7 +294,7 @@ function ContactPage({ page }: { page: ReferencePage }) {
               <b>{copy.address}</b>
             </span>
           </a>
-          <a className="contact-detail" href="tel:+201094866609">
+          <a className="contact-detail" href="tel:+201118383747">
             <span className="contact-detail__icon">02</span>
             <span>
               <b>{copy.phone}</b>

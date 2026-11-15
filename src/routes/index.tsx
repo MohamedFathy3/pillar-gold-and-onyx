@@ -1,15 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useRef } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
   Calculator,
   Check,
+  ChevronLeft,
+  ChevronRight,
   ClipboardCheck,
   FileSpreadsheet,
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { ContactForm, SiteFooter, SiteHeader } from "@/components/site-layout";
+import {
+  ContactForm,
+  FloatingWhatsAppButton,
+  HeroSocialLinks,
+  SiteFooter,
+  SiteHeader,
+  THDWordmark,
+} from "@/components/site-layout";
 import {
   AdvisoryTrustPanel,
   CompanySpotlight,
@@ -46,6 +56,46 @@ const audiences = [
   "Owners who want clarity",
 ];
 
+const clientLogos = [
+  "/images/THD_website_clinet/AZ_advertising_logo.png",
+  "/images/THD_website_clinet/B_PERFECT.png",
+  "/images/THD_website_clinet/DOMINATION.png",
+  "/images/THD_website_clinet/Haunted.png",
+  "/images/THD_website_clinet/TRADE_MARK.png",
+  "/images/THD_website_clinet/apex.png",
+  "/images/THD_website_clinet/aro_tech.png",
+  "/images/THD_website_clinet/azblack.png",
+  "/images/THD_website_clinet/braan.png",
+  "/images/THD_website_clinet/egy_compass.png",
+  "/images/THD_website_clinet/egypt_4_industry.png",
+  "/images/THD_website_clinet/elite_legacy.png",
+  "/images/THD_website_clinet/em.png",
+  "/images/THD_website_clinet/gi.png",
+  "/images/THD_website_clinet/he_and_she.png",
+  "/images/THD_website_clinet/kneaded.png",
+  "/images/THD_website_clinet/libra.png",
+  "/images/THD_website_clinet/mega_express.png",
+  "/images/THD_website_clinet/pack_it.png",
+  "/images/THD_website_clinet/rak_ict.png",
+  "/images/THD_website_clinet/spade.png",
+  "/images/THD_website_clinet/ubase.png",
+  "/images/THD_website_clinet/waffi.png",
+  "/images/THD_website_clinet/we_estate.png",
+  "/images/THD_website_clinet/zi_bag_plast.png",
+  "/images/THD_website_clinet/الامثل_للمقاولات_.png",
+  "/images/THD_website_clinet/البدري.png",
+  "/images/THD_website_clinet/الليث.png",
+  "/images/THD_website_clinet/المصرية_للعناية_بالمنسوجات.png",
+  "/images/THD_website_clinet/بروجكت_كولكتيف.png",
+  "/images/THD_website_clinet/تامز.png",
+  "/images/THD_website_clinet/حسين_محمد_شافعي.png",
+  "/images/THD_website_clinet/صيدلية_دكتور_ايه.png",
+  "/images/THD_website_clinet/قهوة_المضيفة.png",
+  "/images/THD_website_clinet/كوانتم_كير.png",
+  "/images/THD_website_clinet/هايبر_الشمس.png",
+  "/images/THD_website_clinet/يور_ماب.png",
+];
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -80,24 +130,39 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const { language, copy } = useSiteLanguage();
+  const clientsViewportRef = useRef<HTMLDivElement>(null);
+
+  const scrollClients = (direction: "left" | "right") => {
+    clientsViewportRef.current?.scrollBy({
+      left: direction === "left" ? -320 : 320,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <main>
       <script type="application/ld+json">
         {JSON.stringify(accountingServiceStructuredData)}
       </script>
       <section className="pillar-hero" id="home">
-        <video
-          className="pillar-hero__video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+        <img
+          className="pillar-hero__image"
+          src="/images/pillar/hero-writing.jpg"
+          alt=""
+          fetchPriority="high"
           aria-hidden="true"
-        >
-          <source src="/AI_managing_accounting_process_66c6bfe3.mp4" type="video/mp4" />
-        </video>
+        />
         <SiteHeader variant="overlay" />
+        <div className="pillar-hero__content">
+          <p className="pillar-eyebrow">{copy.heroKicker}</p>
+          <THDWordmark />
+          <h1>{copy.heroTitle}</h1>
+          <p className="hero-description">{copy.heroText}</p>
+          <a className="pillar-button-hero" href="/contact/">
+            {copy.contact} <ArrowUpRight size={16} />
+          </a>
+          <HeroSocialLinks />
+        </div>
         <svg
           className="pillar-hero__wave"
           viewBox="0 0 1920 110"
@@ -153,12 +218,11 @@ function HomePage() {
             <h3>{copy.allServices}</h3>
           </div>
           <div className="other-service-list">
-            {otherServiceSlugs.map((slug, index) => {
+            {otherServiceSlugs.map((slug) => {
               const service = getPageBySlug(slug);
               if (!service) return null;
               return (
                 <a href={`/${slug}/`} key={slug}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
                   {language === "ar" ? service.arTitle : service.title}
                   <ArrowRight />
                 </a>
@@ -229,32 +293,55 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="pillar-clients section-wrap">
-        <div className="section-heading">
-          <p className="section-kicker">{copy.aboutKicker}</p>
-          <h2>{language === "ar" ? "لمن نقدم الدعم؟" : "Who we support"}</h2>
+      <section className="pillar-clients section-wrap" id="clients">
+        <div className="client-marquee-header">
+          <div className="client-marquee-header__label">
+            <span className="section-kicker">
+              {language === "ar" ? "شركاء النجاح" : "TRUSTED PARTNERS"}
+            </span>
+          </div>
+
+          <h2>{language === "ar" ? "عملاؤنا وشركاء نجاحنا" : "Our Clients & Partners"}</h2>
+
           <p>
             {language === "ar"
-              ? "دعم محاسبي ومالي يناسب مراحل مختلفة من نمو الأعمال."
-              : "Accounting and financial support for different stages of business growth."}
+              ? "نفخر بثقة مجموعة من الشركات والعلامات التجارية التي تشاركنا رحلة النجاح."
+              : "Proud to work with businesses and brands that trust our expertise."}
           </p>
         </div>
-        <div className="client-grid">
-          {audiences.map((audience, index) => (
-            <div className="client-name" key={audience}>
-              <span className="client-mark">{String(index + 1).padStart(2, "0")}</span>
-              <span>
-                {language === "ar"
-                  ? [
-                      "الشركات الناشئة ورواد الأعمال",
-                      "الشركات الصغيرة والمتنامية",
-                      "الشركات القائمة",
-                      "أصحاب الأعمال الباحثون عن الوضوح",
-                    ][index]
-                  : audience}
-              </span>
+
+        <div className="client-marquee">
+          <button
+            className="client-marquee__arrow"
+            type="button"
+            aria-label="Previous clients"
+            onClick={() => scrollClients("left")}
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          <div
+            className="client-marquee__viewport"
+            ref={clientsViewportRef}
+            aria-label="Client logos"
+          >
+            <div className="client-marquee__track">
+              {clientLogos.map((logo, index) => (
+                <div className="client-logo-card" key={`${logo}-${index}`}>
+                  <img src={logo} alt={`THD client ${index + 1}`} loading="lazy" />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          <button
+            className="client-marquee__arrow"
+            type="button"
+            aria-label="Next clients"
+            onClick={() => scrollClients("right")}
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
       </section>
 
@@ -263,7 +350,7 @@ function HomePage() {
           <p className="section-kicker">{copy.consultationKicker}</p>
           <h2>{copy.consultationTitle}</h2>
           <p>{copy.consultationText}</p>
-          <a href="tel:+201094866609" className="consult-phone">
+          <a href="tel:+201118383747" className="consult-phone">
             {copy.phone} <ArrowUpRight />
           </a>
         </div>
@@ -307,6 +394,7 @@ function HomePage() {
       <a className="pillar-contact-float" href="/contact/">
         {copy.contact} <ArrowUpRight size={14} />
       </a>
+      <FloatingWhatsAppButton />
     </main>
   );
 }

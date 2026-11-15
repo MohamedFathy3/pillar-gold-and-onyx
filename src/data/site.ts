@@ -34,6 +34,7 @@ export const featuredServiceImages: Record<string, string> = {
   "feasibility-studies-project-evaluation": heroImage,
   "assets-business-valuation": serviceImage,
   "government-authorities-support": "/images/pillar/tax-examination.jpg",
+  "integrated-financial-accounting-services": "/images/pillar/statements.jpg",
 };
 
 type ServiceCopy = {
@@ -266,6 +267,29 @@ const services: ServiceCopy[] = [
       "إعداد ومراجعة التقديمات الرسمية",
       "المتابعة مع الجهات المختصة",
       "مستندات وتنسيق يركزان على الامتثال",
+    ],
+  },
+  {
+    slug: "integrated-financial-accounting-services",
+    title: "Integrated Financial & Accounting Services for SMEs",
+    arTitle: "الخدمات المالية والمحاسبية المتكاملة للمنشآت متناهية الصغر والصغيرة والمتوسطة",
+    description:
+      "Ongoing bookkeeping, reporting, and financial follow-up to keep your business records organized and your decisions informed.",
+    arDescription:
+      "خدمات مالية ومحاسبية متكاملة تساعد المنشأة على تنظيم سجلاتها ومتابعة أرقامها واتخاذ قرارات مبنية على معلومات دقيقة.",
+    benefits: [
+      "Bookkeeping and accounting record keeping",
+      "Accounts receivable and payable follow-up",
+      "Cash-flow monitoring and periodic reporting",
+      "Document control and transaction matching",
+      "Optional support for payroll, e-invoicing, and tax coordination",
+    ],
+    arBenefits: [
+      "مسك الدفاتر والسجلات المحاسبية",
+      "متابعة حسابات العملاء والموردين",
+      "متابعة التدفقات النقدية وإعداد التقارير الدورية",
+      "التسويات والمطابقات وتنظيم المستندات",
+      "خدمات إضافية مثل الرواتب والفاتورة الإلكترونية والتنسيق الضريبي حسب الحاجة",
     ],
   },
 ];

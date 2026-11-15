@@ -13,7 +13,7 @@ export const accountingServiceStructuredData = {
   image: SITE_SOCIAL_IMAGE,
   logo: SITE_LOGO,
   description: SITE_DESCRIPTION,
-  telephone: "+201094866609",
+  telephone: "+201118383747",
   address: {
     "@type": "PostalAddress",
     streetAddress: "31 El Obour Buildings, Salah Salem Road",

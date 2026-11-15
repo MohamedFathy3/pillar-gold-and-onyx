@@ -50,7 +50,7 @@ export const uiCopy = {
     consultationTitle: "Let’s make your next step clearer.",
     consultationText:
       "Call or message THD to discuss the accounting, tax, or financial support your business needs.",
-    phone: "+20 10 94866609",
+    phone: "+20 11 1838 3747",
     formKicker: "Send us a message",
     formTitle: "Tell us what your business needs.",
     name: "Name",
@@ -111,7 +111,7 @@ export const uiCopy = {
     consultationTitle: "لنجعل خطوتك القادمة أوضح.",
     consultationText:
       "اتصل أو أرسل رسالة إلى THD لمناقشة الدعم المحاسبي أو الضريبي أو المالي الذي يحتاجه نشاطك.",
-    phone: "+20 10 94866609",
+    phone: "+20 11 1838 3747",
     formKicker: "أرسل لنا رسالة",
     formTitle: "أخبرنا بما يحتاجه نشاطك.",
     name: "الاسم",

@@ -6,11 +6,14 @@ import {
   Menu,
   MessageCircle,
   Music2,
+  Moon,
+  Sun,
   ChevronDown,
   X,
 } from "lucide-react";
 import { allServicePages, primaryNavigation } from "@/data/site";
 import { useSiteLanguage } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
 import { SITE_NAME } from "@/lib/seo";
 
 const socials = [
@@ -21,7 +24,7 @@ const socials = [
     icon: Instagram,
   },
   { label: "TikTok", href: "https://www.tiktok.com/@thd_certifiedaccountant", icon: Music2 },
-  { label: "WhatsApp", href: "https://wa.me/201094866609", icon: MessageCircle },
+  { label: "WhatsApp", href: "https://wa.me/201118383747", icon: MessageCircle },
 ];
 
 export function THDWordmark({ compact = false }: { compact?: boolean }) {
@@ -34,10 +37,38 @@ export function THDWordmark({ compact = false }: { compact?: boolean }) {
   );
 }
 
+export function FloatingWhatsAppButton({ className = "" }: { className?: string }) {
+  const { copy } = useSiteLanguage();
+  return (
+    <a
+      className={`pillar-whatsapp ${className}`.trim()}
+      href="https://wa.me/201118383747"
+      aria-label={copy.whatsapp}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <MessageCircle size={22} strokeWidth={2.2} />
+    </a>
+  );
+}
+
+export function HeroSocialLinks() {
+  return (
+    <div className="pillar-hero-socials" aria-label="Social media">
+      {socials.map(({ label, href, icon: Icon }) => (
+        <a key={label} href={href} aria-label={label} target="_blank" rel="noreferrer">
+          <Icon size={16} />
+        </a>
+      ))}
+    </div>
+  );
+}
+
 export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid" }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const { language, setLanguage, copy } = useSiteLanguage();
+  const { theme, toggleTheme } = useTheme();
   const closeMenu = () => setMenuOpen(false);
   return (
     <header className={`pillar-header ${variant === "solid" ? "pillar-header--solid" : ""}`}>
@@ -94,6 +125,31 @@ export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid
         >
           {copy.language}
         </button>
+        <button
+          className="theme-toggle"
+          type="button"
+          onClick={toggleTheme}
+          aria-label={
+            language === "ar"
+              ? theme === "dark"
+                ? "التبديل إلى الوضع الفاتح"
+                : "التبديل إلى الوضع الداكن"
+              : theme === "dark"
+                ? "Switch to light mode"
+                : "Switch to dark mode"
+          }
+          title={
+            language === "ar"
+              ? theme === "dark"
+                ? "الوضع الفاتح"
+                : "الوضع الداكن"
+              : theme === "dark"
+                ? "Light mode"
+                : "Dark mode"
+          }
+        >
+          {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+        </button>
       </nav>
       <div className="pillar-header-socials" aria-label="Social media">
         {socials.slice(0, 3).map(({ label, href, icon: Icon }) => (
@@ -126,8 +182,8 @@ export function SiteFooter() {
           >
             {copy.address}
           </a>
-          <a href="tel:+201094866609">{copy.phone}</a>
-          <a href="https://wa.me/201094866609" target="_blank" rel="noreferrer">
+          <a href="tel:+201118383747">{copy.phone}</a>
+          <a href="https://wa.me/201118383747" target="_blank" rel="noreferrer">
             WhatsApp
           </a>
         </div>
@@ -191,7 +247,7 @@ export function ContactForm({
       `Message: ${String(formData.get("message") ?? "")}`,
     ].join("\n");
     window.open(
-      `https://wa.me/201094866609?text=${encodeURIComponent(message)}`,
+      `https://wa.me/201118383747?text=${encodeURIComponent(message)}`,
       "_blank",
       "noopener,noreferrer",
     );
