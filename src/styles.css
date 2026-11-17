@@ -227,8 +227,8 @@
   }
   .pillar-brand {
     display: inline-flex;
-    width: 180px;
-    flex: 0 0 180px;
+    width: 210px;
+    flex: 0 0 210px;
     align-items: center;
   }
   .pillar-brand img {
@@ -287,7 +287,8 @@
     width: min(900px, calc(100% - 36px));
     align-items: center;
     flex-direction: column;
-    transform: translate(-50%, -48%);
+    gap: 14px;
+    transform: translate(-50%, -50%);
     text-align: center;
   }
   .pillar-eyebrow,
@@ -300,8 +301,8 @@
     text-transform: uppercase;
   }
   .pillar-hero__content .pillar-eyebrow {
-    margin-bottom: 16px;
-    font-size: 19px;
+    margin: 0;
+    font-size: 16px;
   }
   .pillar-hero__logo {
     display: block;
@@ -326,12 +327,12 @@
     width: 16px;
   }
   .pillar-hero__content .pillar-button-hero {
-    margin-top: 48px;
+    margin-top: 0;
   }
   .pillar-hero-socials {
     display: flex;
     gap: 18px;
-    margin-top: 10px;
+    margin-top: 0;
   }
   .pillar-hero-socials a {
     display: grid;
@@ -1013,7 +1014,7 @@
     padding-bottom: 54px;
   }
   .pillar-footer__brand img {
-    width: 166px;
+    width: 190px;
     height: auto;
   }
   .pillar-footer__brand > p {
@@ -1111,7 +1112,12 @@
     color: var(--pillar-dark);
   }
   .pillar-button-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     min-height: 44px;
+    padding: 12px 18px;
     border: 1px solid var(--pillar-gold);
     border-radius: 0;
     background: var(--pillar-gold);
@@ -1119,6 +1125,7 @@
     font-family: inherit;
     font-size: 13px;
     font-weight: 600;
+    white-space: nowrap;
   }
   .pillar-button-gold:hover {
     background: var(--pillar-dark);
@@ -1142,8 +1149,8 @@
     width: calc(100% - 48px);
   }
   .pillar-brand {
-    width: 165px;
-    flex-basis: 165px;
+    width: 190px;
+    flex-basis: 190px;
   }
   .pillar-nav {
     gap: 15px;
@@ -1184,8 +1191,8 @@
     height: 72px;
   }
   .pillar-brand {
-    width: 150px;
-    flex-basis: 150px;
+    width: 165px;
+    flex-basis: 165px;
   }
   .pillar-menu-toggle {
     display: grid;
@@ -1230,7 +1237,7 @@
   }
   .pillar-hero__content .pillar-eyebrow {
     max-width: 320px;
-    margin-bottom: 13px;
+    margin: 0;
     font-size: 14px;
   }
   .pillar-hero__logo {
@@ -1240,11 +1247,11 @@
     top: calc(100% + 34px);
   }
   .pillar-hero__content .pillar-button-hero {
-    margin-top: 42px;
+    margin-top: 0;
   }
   .pillar-hero-socials {
     gap: 14px;
-    margin-top: 12px;
+    margin-top: 0;
   }
   .pillar-hero-socials a {
     width: 32px;
@@ -1490,8 +1497,8 @@
     width: calc(100% - 28px);
   }
   .pillar-brand {
-    width: 126px;
-    flex-basis: 126px;
+    width: 146px;
+    flex-basis: 146px;
   }
   .section-wrap {
     width: calc(100% - 28px);
@@ -2672,7 +2679,7 @@
     display: inline-flex;
     align-items: baseline;
     gap: 10px;
-    color: var(--pillar-white);
+    /* color: var(--pillar-white); */
     text-decoration: none;
     white-space: nowrap;
   }
@@ -2700,7 +2707,9 @@
   }
   .pillar-brand .thd-wordmark img {
     width: 100%;
-    height: auto;
+    height: 70px;
+    object-fit: cover;
+    object-position: center;
   }
   .pillar-brand .thd-wordmark strong {
     font-size: 25px;
@@ -2724,23 +2733,25 @@
     content: "";
   }
   .pillar-footer__brand .thd-wordmark img {
-    width: 210px;
-    height: auto;
-    filter: brightness(0) saturate(100%) invert(76%) sepia(43%) saturate(638%) hue-rotate(354deg)
-      brightness(94%) contrast(89%);
+    width: 250px;
+    height: 84px;
+    object-fit: cover;
+    object-position: center;
   }
   .pillar-footer__brand .thd-wordmark strong {
     font-size: 31px;
   }
   .pillar-hero__content > .thd-wordmark {
-    margin: 8px 0 22px;
+    margin: 0;
     flex-direction: column;
     align-items: center;
     gap: 4px;
   }
   .pillar-hero__content > .thd-wordmark img {
     width: min(360px, 72vw);
-    height: auto;
+    height: clamp(76px, 8.6vw, 120px);
+    object-fit: cover;
+    object-position: center;
   }
   .pillar-hero__content > .thd-wordmark strong {
     font-size: clamp(54px, 9vw, 112px);

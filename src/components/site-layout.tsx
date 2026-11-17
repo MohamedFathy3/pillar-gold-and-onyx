@@ -182,7 +182,9 @@ export function SiteFooter() {
           >
             {copy.address}
           </a>
-          <a href="tel:+201118383747">{copy.phone}</a>
+          <a href="tel:+201118383747">
+            <bdi dir="ltr">{copy.phone}</bdi>
+          </a>
           <a href="https://wa.me/201118383747" target="_blank" rel="noreferrer">
             WhatsApp
           </a>

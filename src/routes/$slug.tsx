@@ -278,7 +278,9 @@ function ContactPage({ page }: { page: ReferencePage }) {
           <a className="contact-detail" href="tel:+201118383747">
             <span className="contact-detail__icon">02</span>
             <span>
-              <b>{copy.phone}</b>
+              <b>
+                <bdi dir="ltr">{copy.phone}</bdi>
+              </b>
             </span>
           </a>
           <div className="contact-social-row">

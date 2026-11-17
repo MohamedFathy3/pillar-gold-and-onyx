@@ -332,7 +332,7 @@ function HomePage() {
           <h2>{copy.consultationTitle}</h2>
           <p>{copy.consultationText}</p>
           <a href="tel:+201118383747" className="consult-phone">
-            {copy.phone} <ArrowUpRight />
+            <bdi dir="ltr">{copy.phone}</bdi> <ArrowUpRight />
           </a>
         </div>
         <ContactForm className="consultation-form" />
