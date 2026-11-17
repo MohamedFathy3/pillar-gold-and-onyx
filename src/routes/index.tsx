@@ -27,10 +27,9 @@ import {
   ReferenceAbout,
 } from "@/components/home-reference-sections";
 import {
+  allServiceSlugs,
   featuredServiceImages,
-  featuredServiceSlugs,
   getPageBySlug,
-  otherServiceSlugs,
 } from "@/data/site";
 import { useSiteLanguage } from "@/lib/i18n";
 import {
@@ -184,7 +183,7 @@ function HomePage() {
           <p>{copy.servicesText}</p>
         </div>
         <div className="service-grid">
-          {featuredServiceSlugs.map((slug, index) => {
+          {allServiceSlugs.map((slug, index) => {
             const service = getPageBySlug(slug);
             const Icon = serviceIcons[index] ?? ClipboardCheck;
             if (!service) return null;
@@ -211,24 +210,6 @@ function HomePage() {
               </article>
             );
           })}
-        </div>
-        <div className="other-services">
-          <div>
-            <p className="section-kicker">{copy.latestKicker}</p>
-            <h3>{copy.allServices}</h3>
-          </div>
-          <div className="other-service-list">
-            {otherServiceSlugs.map((slug) => {
-              const service = getPageBySlug(slug);
-              if (!service) return null;
-              return (
-                <a href={`/${slug}/`} key={slug}>
-                  {language === "ar" ? service.arTitle : service.title}
-                  <ArrowRight />
-                </a>
-              );
-            })}
-          </div>
         </div>
       </section>
 

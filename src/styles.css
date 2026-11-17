@@ -2173,7 +2173,7 @@
 
   .latest-services__header h2 {
     margin: 5px 0 0;
-    color: var(--pillar-dark);
+    color: var(--foreground);
     font-size: 27px;
     font-weight: 600;
   }
@@ -2476,7 +2476,7 @@
 
   .pillar-about--reference .pillar-about__copy h2 {
     margin: 8px 0 15px;
-    color: var(--pillar-dark);
+    color: var(--foreground);
     font-size: 32px;
   }
 

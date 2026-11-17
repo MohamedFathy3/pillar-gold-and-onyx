@@ -28,13 +28,13 @@ export const featuredServiceImages: Record<string, string> = {
   "tax-returns-filing": "/images/service/اعداد وتقديدم القراارت الضريبيبة.png",
   "tax-examination-inspection-support": "/images/service/دعم الفحض والتفتيش الضريبي.png",
   "financial-statements-preparation": "/images/service/اعداد القوائم المالية_.png",
-  "e-invoicing-services": "/images/pillar/tax-filing.jpg",
-  "company-formation-registration": aboutImage,
-  "payroll-internal-reporting-support": "/images/pillar/statements.jpg",
-  "feasibility-studies-project-evaluation": heroImage,
-  "assets-business-valuation": serviceImage,
-  "government-authorities-support": "/images/pillar/tax-examination.jpg",
-  "integrated-financial-accounting-services": "/images/pillar/statements.jpg",
+  "e-invoicing-services": "/images/service/الفاتاتورة_.png",
+  "company-formation-registration": "/images/service/تأسيس وتسجيل الشركات_.png",
+  "payroll-internal-reporting-support": "/images/service/دعم الرواتب والتقاري الداخلية_.png",
+  "feasibility-studies-project-evaluation": "/images/service/دراسة الجدوي وتقسسم المشروعات.png",
+  "assets-business-valuation": "/images/service/تقييم الاصول واللاعمال_.png",
+  "government-authorities-support": "/images/service/المنظمات الحوكومية_.png",
+  "integrated-financial-accounting-services": "/images/service/الخدمات-الماليه-والمحاسبيه.png",
 };
 
 type ServiceCopy = {
@@ -145,7 +145,7 @@ const services: ServiceCopy[] = [
   {
     slug: "financial-statements-preparation",
     title: "Financial Statements Preparation",
-    arTitle: "إعداد القوائم المالية",
+    arTitle: "مراجعة القوائم المالية",
     description:
       "Accurate financial statements that turn your accounting records into information you can understand, share, and act on.",
     arDescription:

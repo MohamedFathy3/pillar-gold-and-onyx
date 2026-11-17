@@ -132,28 +132,9 @@ function ServicesPage({ page, language }: { page: ReferencePage; language: "en" 
           <p>{copy.servicesText}</p>
         </div>
         <div className="service-grid interior-service-grid">
-          {allServiceSlugs.slice(0, 6).map((slug, index) => (
+          {allServiceSlugs.map((slug, index) => (
             <ServiceCard key={slug} slug={slug} index={index} language={language} />
           ))}
-        </div>
-        <div className="other-services interior-other-services">
-          <div>
-            <p className="section-kicker">{copy.latestKicker}</p>
-            <h3>{copy.allServices}</h3>
-          </div>
-          <div className="other-service-list">
-            {otherServiceSlugs.map((slug, index) => {
-              const item = getPageBySlug(slug);
-              if (!item) return null;
-              return (
-                <a href={`/${slug}/`} key={slug}>
-                  {/* <span>{String(index + 1).padStart(2, "0")}</span> */}
-                  {language === "ar" ? item.arTitle : item.title}
-                  <ArrowRight />
-                </a>
-              );
-            })}
-          </div>
         </div>
       </section>
       <section className="service-page-cta">
