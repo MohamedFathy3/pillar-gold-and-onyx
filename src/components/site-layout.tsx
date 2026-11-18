@@ -112,6 +112,22 @@ export function SiteHeader({ variant = "solid" }: { variant?: "overlay" | "solid
             </div>
           </details>
         </div>
+        <a
+          href="/#clients"
+          onClick={(event) => {
+            closeMenu();
+            if (window.location.pathname === "/") {
+              event.preventDefault();
+              window.history.pushState(null, "", "#clients");
+              document.getElementById("clients")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }}
+        >
+          {copy.nav.clients}
+        </a>
         {primaryNavigation.slice(2).map((item) => (
           <a href={item.href} key={item.href} onClick={closeMenu}>
             {language === "ar" ? item.arLabel : item.label}

@@ -11,6 +11,7 @@ export const uiCopy = {
     nav: {
       home: "Home",
       services: "Services",
+      clients: "Our Clients",
       why: "Why THD",
       about: "About THD",
       contact: "Contact",
@@ -75,6 +76,7 @@ export const uiCopy = {
     nav: {
       home: "الرئيسية",
       services: "الخدمات",
+      clients: "عملاؤنا",
       why: "لماذا THD؟",
       about: "عن THD",
       contact: "تواصل معنا",

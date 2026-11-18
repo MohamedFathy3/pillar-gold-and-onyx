@@ -307,9 +307,21 @@ function HomePage() {
             aria-label="Client logos"
           >
             <div className="client-marquee__track">
-              {clientLogos.map((logo, index) => (
-                <div className="client-logo-card" key={`${logo}-${index}`}>
-                  <img src={logo} alt={`THD client ${index + 1}`} loading="lazy" />
+              {[0, 1].map((setIndex) => (
+                <div
+                  className="client-marquee__set"
+                  key={setIndex}
+                  aria-hidden={setIndex === 1 ? "true" : undefined}
+                >
+                  {clientLogos.map((logo, index) => (
+                    <div className="client-logo-card" key={`${logo}-${index}`}>
+                      <img
+                        src={logo}
+                        alt={setIndex === 0 ? `THD client ${index + 1}` : ""}
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
