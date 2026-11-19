@@ -10,6 +10,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+        "start": "node -e \"process.env.PORT='3016'; process.env.HOST='0.0.0.0'; import('./.output/server/index.mjs')\"",
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest"
