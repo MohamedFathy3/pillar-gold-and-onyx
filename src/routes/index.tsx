@@ -196,7 +196,6 @@ function HomePage() {
                   aria-label={`${copy.readMore}: ${title}`}
                 >
                   <img src={featuredServiceImages[slug]} alt={title} loading="lazy" />
-                  <span className="service-index">{String(index + 1).padStart(2, "0")}</span>
                   <span className="service-icon">
                     <Icon />
                   </span>
